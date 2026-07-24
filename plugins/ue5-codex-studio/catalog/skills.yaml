@@ -1,0 +1,41 @@
+schema_version: 1
+plugin: ue5-codex-studio
+skills:
+  - {name: ue5-start-project, status: active, owner: project_profile, artifacts: [.ue5-codex-studio/project.yaml], legacy: [start, help, project-stage-detect, onboard]}
+  - {name: ue5-setup-toolchain, status: active, owner: toolchain_lock, artifacts: [.ue5-codex-studio/toolchain-lock.yaml], legacy: [setup-engine]}
+  - {name: ue5-ingest-project, status: active, owner: intake_bundle, artifacts: [intake/source-manifest.yaml, intake/intake-bundle.yaml], legacy: [adopt, reverse-document]}
+  - {name: ue5-conceive-game, status: active, owner: concept_candidates, artifacts: [design/concept-options.yaml], legacy: [brainstorm]}
+  - {name: ue5-adapt-story, status: active, owner: narrative_registry, artifacts: [intake/source-manifest.yaml, design/narrative-registry.yaml], legacy: []}
+  - {name: ue5-map-systems, status: active, owner: system_map, artifacts: [design/system-map.yaml], legacy: [map-systems]}
+  - {name: ue5-accept-baseline, status: active, owner: design_baseline, artifacts: [design/baseline.yaml], legacy: [gate-check]}
+  - {name: ue5-change-design, status: active, owner: change_ledger, artifacts: [production/change-ledger.yaml], legacy: [propagate-design-change, quick-design]}
+  - {name: ue5-design-system, status: active, owner: system_specs, artifacts: [design/systems], legacy: [design-system]}
+  - {name: ue5-design-narrative, status: active, owner: narrative_specs, artifacts: [design/narrative], legacy: [team-narrative]}
+  - {name: ue5-design-investigation, status: active, owner: truth_graph, artifacts: [design/truth-graph.yaml], legacy: []}
+  - {name: ue5-design-level, status: active, owner: level_specs, artifacts: [design/levels], legacy: [team-level]}
+  - {name: ue5-design-art, status: active, owner: art_bible, artifacts: [design/art-bible.yaml], legacy: [art-bible]}
+  - {name: ue5-design-audio, status: active, owner: audio_bible, artifacts: [design/audio-bible.yaml], legacy: []}
+  - {name: ue5-design-ux, status: active, owner: ux_specs, artifacts: [design/ux], legacy: [ux-design, ux-review, team-ui]}
+  - {name: ue5-design-architecture, status: active, owner: architecture, artifacts: [docs/architecture], legacy: [create-architecture, architecture-decision, architecture-review, create-control-manifest]}
+  - {name: ue5-plan-simulation, status: active, owner: simulation_contract, artifacts: [design/simulation.yaml], legacy: []}
+  - {name: ue5-plan-persistence, status: active, owner: save_contract, artifacts: [design/persistence.yaml], legacy: []}
+  - {name: ue5-spec-assets, status: active, owner: asset_manifest, artifacts: [assets/asset-manifest.yaml], legacy: [asset-spec]}
+  - {name: ue5-run-prototype, status: active, owner: prototype_report, artifacts: [prototypes], legacy: [prototype]}
+  - {name: ue5-build-slice, status: active, owner: slice_report, artifacts: [production/vertical-slice.yaml], legacy: [vertical-slice]}
+  - {name: ue5-plan-work, status: active, owner: work_plan, artifacts: [production/work-items], legacy: [create-epics, create-stories, sprint-plan, sprint-status, estimate, milestone-review, retrospective]}
+  - {name: ue5-execute-work, status: active, owner: work_execution, artifacts: [production/evidence], legacy: [dev-story, story-readiness, story-done, code-review, team-combat]}
+  - {name: ue5-produce-assets, status: active, owner: asset_production, artifacts: [assets/production], legacy: []}
+  - {name: ue5-produce-audio, status: active, owner: audio_production, artifacts: [assets/audio], legacy: [team-audio]}
+  - {name: ue5-localize-content, status: active, owner: localization_registry, artifacts: [design/localization.yaml], legacy: [localize]}
+  - {name: ue5-review-design, status: active, owner: design_review, artifacts: [production/reviews], legacy: [design-review, review-all-gdds, consistency-check, scope-check]}
+  - {name: ue5-test-project, status: active, owner: qa_evidence, artifacts: [tests, production/evidence], legacy: [qa-plan, smoke-check, soak-test, regression-suite, test-setup, test-helpers, test-evidence-review, test-flakiness, team-qa]}
+  - {name: ue5-run-playtest, status: active, owner: playtest_reports, artifacts: [production/playtests], legacy: [playtest-report]}
+  - {name: ue5-profile-performance, status: active, owner: performance_reports, artifacts: [production/performance], legacy: [perf-profile, team-polish]}
+  - {name: ue5-check-balance, status: active, owner: balance_reports, artifacts: [production/balance], legacy: [balance-check]}
+  - {name: ue5-audit-assets-content, status: active, owner: content_audits, artifacts: [production/audits], legacy: [asset-audit, content-audit]}
+  - {name: ue5-audit-accessibility, status: active, owner: accessibility_audit, artifacts: [production/accessibility], legacy: []}
+  - {name: ue5-audit-security, status: active, owner: security_audit, artifacts: [production/security], legacy: [security-audit]}
+  - {name: ue5-triage-issues, status: active, owner: issue_register, artifacts: [production/issues], legacy: [bug-report, bug-triage, tech-debt]}
+  - {name: ue5-release-game, status: active, owner: release_record, artifacts: [production/releases], legacy: [release-checklist, launch-checklist, changelog, patch-notes, team-release]}
+  - {name: ue5-hotfix-game, status: active, owner: hotfix_record, artifacts: [production/hotfixes], legacy: [hotfix, day-one-patch]}
+  - {name: ue5-operate-game, status: active, owner: operations_plan, artifacts: [production/operations], legacy: [team-live-ops]}

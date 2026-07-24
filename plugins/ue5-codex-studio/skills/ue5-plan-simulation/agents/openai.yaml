@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Game Simulation"
+  short_description: "Plan systemic simulation and soak evidence."
+  default_prompt: "Use -plan-simulation for my UE5 project."

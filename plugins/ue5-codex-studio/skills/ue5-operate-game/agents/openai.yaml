@@ -1,0 +1,4 @@
+interface:
+  display_name: "Operate UE5 Game"
+  short_description: "Plan UE5 live operations and player support."
+  default_prompt: "Use $ue5-operate-game for my shipped UE5 game."

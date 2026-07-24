@@ -1,0 +1,4 @@
+interface:
+  display_name: "Produce Audio And Voice"
+  short_description: "Track approved music, SFX, and voice production."
+  default_prompt: "Use -produce-audio for my UE5 project."

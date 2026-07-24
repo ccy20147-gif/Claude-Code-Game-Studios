@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Vertical Slice"
+  short_description: "Validate a representative UE5 production slice."
+  default_prompt: "Use -build-slice for my UE5 project."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Produce UE5 Assets"
+  short_description: "Produce approved UE5 game assets."
+  default_prompt: "Use $ue5-produce-assets for my approved UE5 asset work."

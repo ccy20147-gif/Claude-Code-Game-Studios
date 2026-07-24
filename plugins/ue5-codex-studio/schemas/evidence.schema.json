@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "id", "operation_id", "level", "result"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^evidence_[a-z0-9_]+$"},
+    "operation_id": {"type": "string"},
+    "level": {"enum": ["ACK", "OBSERVED", "PERSISTED", "RUNTIME"]},
+    "result": {"enum": ["PASS", "FAIL", "UNKNOWN", "PENDING_LOCAL_VALIDATION"]},
+    "kind": {"enum": ["test", "review", "runtime", "mcp_mutation"]},
+    "state": {"enum": ["SUCCEEDED", "FAILED", "UNKNOWN", "SKIPPED"]},
+    "execution_profile": {"enum": ["local-editor", "cloud", "offline"]}
+  },
+  "additionalProperties": true
+}

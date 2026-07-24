@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Investigation"
+  short_description: "Design fair clue and deduction gameplay."
+  default_prompt: "Use -design-investigation for my UE5 project."

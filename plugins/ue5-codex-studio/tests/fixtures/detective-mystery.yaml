@@ -1,0 +1,5 @@
+profiles: {experience: hybrid, presentation: 3d, investigation: clue-graph}
+artifacts:
+  truths: [{id: truth_killer}]
+  clues: [{id: clue_letter, supports: [truth_killer]}]
+  inferences: [{id: inference_motive}]

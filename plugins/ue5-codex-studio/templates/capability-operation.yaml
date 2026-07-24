@@ -1,0 +1,12 @@
+schema_version: 1
+id: operation_example
+capability_id: ue.asset.read
+intent: inspect_asset
+execution_profile: local-editor
+status: PLANNED
+preconditions: []
+required_evidence: OBSERVED
+approval_record: null
+server_policy_canary: null
+schema_drift_policy: null
+readback_required: true

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run UE5 Prototype"
+  short_description: "Test a high-risk game hypothesis in isolation."
+  default_prompt: "Use -run-prototype for my UE5 project."

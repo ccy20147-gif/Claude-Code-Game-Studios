@@ -1,0 +1,4 @@
+interface:
+  display_name: "Triage UE5 Issues"
+  short_description: "Prioritize UE5 defects, debt, and release risks."
+  default_prompt: "Use $ue5-triage-issues on my UE5 issue backlog."

@@ -1,0 +1,11 @@
+profiles: {experience: linear, presentation: 2.5d, investigation: none}
+artifacts:
+  beats: [{id: beat_opening}]
+  scenes: [{id: scene_street}]
+  lines: [{id: line_opening}]
+  cues: [{id: cue_opening}]
+  presentation:
+    camera: side-follow
+    projection: orthographic
+    depth_sort: y-axis
+    asset_representation: sprite-3d-hybrid

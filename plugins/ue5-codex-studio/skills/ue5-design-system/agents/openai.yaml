@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Game System"
+  short_description: "Specify a testable UE5 game system."
+  default_prompt: "Use -design-system for my UE5 project."

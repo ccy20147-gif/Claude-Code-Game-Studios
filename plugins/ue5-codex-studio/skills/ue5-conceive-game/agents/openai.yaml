@@ -1,0 +1,4 @@
+interface:
+  display_name: "Conceive UE5 Game"
+  short_description: "Turn a rough idea into bounded UE5 game concepts."
+  default_prompt: "Use -conceive-game for my UE5 project."

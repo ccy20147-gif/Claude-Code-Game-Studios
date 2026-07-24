@@ -1,0 +1,4 @@
+interface:
+  display_name: "Change Game Design"
+  short_description: "Propagate a design or narrative revision safely."
+  default_prompt: "Use -change-design for my UE5 project."

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "lifecycle", "mode", "review", "profiles", "authority_map"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "lifecycle": {"enum": ["concept", "systems", "architecture", "preproduction", "production", "polish", "release", "live"]},
+    "mode": {"enum": ["standard", "prototype", "maintenance", "hotfix"]},
+    "review": {"enum": ["adaptive", "full", "lean", "solo"]},
+    "profiles": {"type": "object", "required": ["experience", "presentation", "investigation", "runtime", "operations"]},
+    "authority_map": {"type": "object"},
+    "shipping_targets": {"type": "array", "items": {"enum": ["windows", "linux"]}}
+  },
+  "additionalProperties": true
+}

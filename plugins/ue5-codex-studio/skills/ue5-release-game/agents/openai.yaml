@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release UE5 Game"
+  short_description: "Prepare a UE5 release with evidence and rollback."
+  default_prompt: "Use $ue5-release-game to prepare my UE5 release."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test UE5 Project"
+  short_description: "Plan and evaluate UE5 QA evidence."
+  default_prompt: "Use -test-project for my UE5 project."

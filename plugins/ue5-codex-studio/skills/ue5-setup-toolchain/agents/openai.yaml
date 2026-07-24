@@ -1,0 +1,4 @@
+interface:
+  display_name: "Set Up UE5 Toolchain"
+  short_description: "Check UE5, Blender, Codex, and MCP readiness."
+  default_prompt: "Use -setup-toolchain to check my UE5 workstation."

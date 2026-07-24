@@ -1,0 +1,10 @@
+schema_version: 1
+id: baseline_game
+revision: 1
+status: DRAFT
+requirements: []
+invariants: []
+budgets: {}
+persistence_boundaries: []
+tuning_ranges: {}
+waivers: []

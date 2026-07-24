@@ -1,0 +1,32 @@
+schema_version: 1
+codex:
+  tested_range: '>=0.145.0,<0.146.0'
+unreal:
+  version: 5.7.4
+  hosts: [windows, linux]
+  mcp:
+    upstream: ChiR24/Unreal_mcp
+    version: 0.5.30
+    tag: v0.5.30
+    commit: b20b257cd771ce37fb6251a8f058a974baa4e851
+    artifact_sha256: null
+    endpoint: http://127.0.0.1:3000/mcp
+    server_policy: required
+    automation_status: experimental
+blender:
+  version: 4.5
+  hosts: [windows, linux]
+  mcp:
+    upstream: dcc-mcp/dcc-mcp-blender
+    version: 0.1.40
+    commit: e68a90993e9794d56bb7a9e3bd3c43e2dc7f9dc5
+    wheel_sha256: 8248de851686e8e9ab76ff22209775e8f7ae928e3a9d4ef98b82e44940d55cc9
+    core_version: 0.19.63
+    core_wheel_sha256: null
+    endpoint: http://127.0.0.1:9765/mcp
+    server_policy: required
+    automation_status: experimental
+provisioning:
+  downloads_embedded: false
+  require_sha256: true
+  require_security_canary: true

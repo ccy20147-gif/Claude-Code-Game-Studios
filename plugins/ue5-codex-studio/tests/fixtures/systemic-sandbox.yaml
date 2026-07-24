@@ -1,0 +1,7 @@
+profiles: {experience: systemic, presentation: 3d, investigation: spatial}
+artifacts:
+  simulation:
+    entities: [entity_town]
+    layers: [economy, population]
+    seed: 42
+    soak_scenarios: [soak_24h]

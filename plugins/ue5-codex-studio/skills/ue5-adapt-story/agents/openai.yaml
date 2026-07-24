@@ -1,0 +1,4 @@
+interface:
+  display_name: "Adapt Story To Game"
+  short_description: "Turn a novel or screenplay into a traceable game plan."
+  default_prompt: "Use -adapt-story for my UE5 project."

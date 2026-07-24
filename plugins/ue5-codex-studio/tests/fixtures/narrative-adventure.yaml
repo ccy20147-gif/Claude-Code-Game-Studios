@@ -1,0 +1,6 @@
+profiles: {experience: linear, presentation: 2d, investigation: none}
+artifacts:
+  beats: [{id: beat_arrival}]
+  scenes: [{id: scene_hospital}]
+  lines: [{id: line_welcome}]
+  cues: [{id: cue_theme}]

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Playable Narrative"
+  short_description: "Turn story beats into playable narrative design."
+  default_prompt: "Use -design-narrative for my UE5 project."

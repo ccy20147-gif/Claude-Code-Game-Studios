@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Save Persistence"
+  short_description: "Design SaveGame schemas and migrations."
+  default_prompt: "Use -plan-persistence for my UE5 project."

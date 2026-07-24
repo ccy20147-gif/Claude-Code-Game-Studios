@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design UE5 Level"
+  short_description: "Specify a UE5 level, scene, or mission space."
+  default_prompt: "Use -design-level for my UE5 project."

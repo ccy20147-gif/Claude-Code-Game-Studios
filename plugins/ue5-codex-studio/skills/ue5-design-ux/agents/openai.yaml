@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design UE5 UX"
+  short_description: "Define accessible UE5 interface and interaction flows."
+  default_prompt: "Use -design-ux for my UE5 project."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run UE5 Hotfix"
+  short_description: "Validate a released-build hotfix and rollback plan."
+  default_prompt: "Use -hotfix-game for my UE5 project."

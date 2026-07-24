@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit UE5 Security"
+  short_description: "Audit game, save, MCP, and release security."
+  default_prompt: "Use -audit-security for my UE5 project."

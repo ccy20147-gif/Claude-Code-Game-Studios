@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design UE5 Architecture"
+  short_description: "Create UE5 architecture decisions and boundaries."
+  default_prompt: "Use -design-architecture for my UE5 project."

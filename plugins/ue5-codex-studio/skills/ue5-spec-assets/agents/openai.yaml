@@ -1,0 +1,4 @@
+interface:
+  display_name: "Specify UE5 Assets"
+  short_description: "Create traceable game asset specifications."
+  default_prompt: "Use -spec-assets for my UE5 project."

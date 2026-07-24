@@ -1,0 +1,18 @@
+schema_version: 1
+# Copy to a local, ignored location. Do not add a token value to this file.
+token:
+  environment: UE5_CODEX_MCP_GATEWAY_TOKEN
+  required: true
+backends:
+  unreal-mcp:
+    endpoint: http://127.0.0.1:3000/mcp
+    require_binding: true
+    denied_tools: [execute_python, manage_tools, run_ubt]
+    denied_actions: [console_command, set_property, add_mass_spawner]
+    routes: []
+  blender-mcp:
+    endpoint: http://127.0.0.1:9765/mcp
+    require_binding: true
+    denied_tools: [call]
+    denied_actions: [execute_python]
+    routes: []

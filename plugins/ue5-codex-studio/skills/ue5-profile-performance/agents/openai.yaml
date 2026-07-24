@@ -1,0 +1,4 @@
+interface:
+  display_name: "Profile UE5 Performance"
+  short_description: "Profile UE5 runtime and packaging performance."
+  default_prompt: "Use $ue5-profile-performance for my UE5 project."

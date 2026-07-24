@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run UE5 Playtest"
+  short_description: "Plan and analyze UE5 player playtests."
+  default_prompt: "Use $ue5-run-playtest to plan my UE5 playtest."

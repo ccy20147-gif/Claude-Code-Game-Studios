@@ -1,0 +1,4 @@
+interface:
+  display_name: "Execute UE5 Work"
+  short_description: "Implement an approved UE5 work item safely."
+  default_prompt: "Use -execute-work for my UE5 project."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review UE5 Design"
+  short_description: "Review UE5 design for consistency and scope."
+  default_prompt: "Use $ue5-review-design on my UE5 design artifacts."

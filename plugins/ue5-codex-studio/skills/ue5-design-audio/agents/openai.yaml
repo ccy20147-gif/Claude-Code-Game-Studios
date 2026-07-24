@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Audio And Voice"
+  short_description: "Plan game music, SFX, dialogue, and VO."
+  default_prompt: "Use -design-audio for my UE5 project."

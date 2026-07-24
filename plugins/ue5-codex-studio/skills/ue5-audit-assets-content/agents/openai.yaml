@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit UE5 Content"
+  short_description: "Audit UE5 assets, content, rights, and provenance."
+  default_prompt: "Use $ue5-audit-assets-content for my UE5 project."

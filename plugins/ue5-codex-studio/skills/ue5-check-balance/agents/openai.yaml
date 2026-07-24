@@ -1,0 +1,4 @@
+interface:
+  display_name: "Check UE5 Balance"
+  short_description: "Evaluate UE5 game economy and system balance."
+  default_prompt: "Use $ue5-check-balance on my UE5 systems."

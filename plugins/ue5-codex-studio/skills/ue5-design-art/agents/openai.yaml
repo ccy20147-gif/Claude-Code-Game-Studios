@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Art Direction"
+  short_description: "Create a UE5 art and technical-art contract."
+  default_prompt: "Use -design-art for my UE5 project."

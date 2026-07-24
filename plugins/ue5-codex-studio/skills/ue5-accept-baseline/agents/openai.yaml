@@ -1,0 +1,4 @@
+interface:
+  display_name: "Accept Design Baseline"
+  short_description: "Validate and approve a versioned game design baseline."
+  default_prompt: "Use -accept-baseline for my UE5 project."

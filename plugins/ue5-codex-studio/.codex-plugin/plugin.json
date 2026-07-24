@@ -1,0 +1,34 @@
+{
+  "name": "ue5-codex-studio",
+  "version": "0.1.0+codex.20260724092900",
+  "description": "Foundation workflows for structured Unreal Engine 5 game development in Codex.",
+  "author": {
+    "name": "Donchitos",
+    "url": "https://github.com/Donchitos"
+  },
+  "repository": "https://github.com/Donchitos/codex-ue-game-studios",
+  "license": "MIT",
+  "keywords": [
+    "unreal-engine",
+    "ue5",
+    "game-development",
+    "narrative"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "UE5 Codex Studio",
+    "shortDescription": "Plan, build, and validate UE5 games in Codex.",
+    "longDescription": "An early UE5 Codex Studio foundation. It supports zero-idea, narrative, design-pack, and existing-project intake plus traceable design, production, QA, release, and operations workflows. Editor automation remains experimental and disabled until explicit secure provisioning succeeds.",
+    "developerName": "Donchitos",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use $ue5-start-project to route my UE5 game project.",
+      "Use $ue5-adapt-story to turn this story into a game plan.",
+      "Use $ue5-ingest-project to assess my existing UE5 project."
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+schema_version: 1
+marketplace:
+  repository: https://github.com/Donchitos/codex-ue-game-studios
+  commit: null
+plugin:
+  name: ue5-codex-studio
+  version: null
+  manifest_sha256: null
