@@ -2,7 +2,7 @@
 
 ## Current State
 
-The plugin is installed locally as `ue5-codex-studio@donchitos-game-studios`, version `0.1.0+codex.20260724092900`. Codex CLI `0.145.0` was used for installation and upgrade readback. The repository-local marketplace is `.agents/plugins/marketplace.json`; use the repository root as the local marketplace source.
+The plugin is installed locally as `ue5-codex-studio@donchitos-game-studios`, version `0.1.0+codex.20260724101749`. Codex CLI `0.145.0` was used for installation and upgrade readback. The repository-local marketplace is `.agents/plugins/marketplace.json`; use the repository root as the local marketplace source.
 
 All 38 public skills are active. The core path is independent of MCP: zero-idea, fiction, design-pack, and brownfield UE intake; narrative adaptation; design; work planning; QA; release; and operations. Structured YAML is authoritative. Start with `skills/ue5-start-project`, `ue5-adapt-story`, or `ue5-ingest-project`.
 

@@ -33,7 +33,7 @@ Requirements:
 - Git
 
 ```bash
-git clone https://github.com/Donchitos/codex-ue-game-studios.git
+git clone https://github.com/ccy20147-gif/codex-ue-game-studios.git
 cd codex-ue-game-studios
 codex plugin marketplace add . --json
 codex plugin add ue5-codex-studio@donchitos-game-studios --json

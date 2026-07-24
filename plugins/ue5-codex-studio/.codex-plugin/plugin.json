@@ -1,12 +1,12 @@
 {
   "name": "ue5-codex-studio",
-  "version": "0.1.0+codex.20260724092900",
+  "version": "0.1.0+codex.20260724101749",
   "description": "Foundation workflows for structured Unreal Engine 5 game development in Codex.",
   "author": {
     "name": "Donchitos",
     "url": "https://github.com/Donchitos"
   },
-  "repository": "https://github.com/Donchitos/codex-ue-game-studios",
+  "repository": "https://github.com/ccy20147-gif/codex-ue-game-studios",
   "license": "MIT",
   "keywords": [
     "unreal-engine",
