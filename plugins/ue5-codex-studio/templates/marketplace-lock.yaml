@@ -1,6 +1,6 @@
 schema_version: 1
 marketplace:
-  repository: https://github.com/ccy20147-gif/codex-ue-game-studios
+  repository: https://github.com/ccy20147-gif/codex-ue5-game-studio
   commit: null
 plugin:
   name: ue5-codex-studio

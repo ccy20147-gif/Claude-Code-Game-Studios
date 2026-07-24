@@ -47,11 +47,11 @@ MCP 是可选的本地加速层，目前默认拒绝所有编辑器写操作。�
 
 ## 安装
 
-当前 GitHub 远程仍使用历史仓库名，以下命令可直接使用；完成仓库重命名后，将 URL 替换为 `codex-ue-game-studios` 即可。
+GitHub 仓库地址为 `ccy20147-gif/codex-ue5-game-studio`。
 
 ```bash
-git clone https://github.com/ccy20147-gif/Claude-Code-Game-Studios.git codex-ue-game-studios
-cd codex-ue-game-studios
+git clone https://github.com/ccy20147-gif/codex-ue5-game-studio.git
+cd codex-ue5-game-studio
 codex plugin marketplace add . --json
 codex plugin add ue5-codex-studio@donchitos-game-studios --json
 codex plugin list --json
