@@ -1,0 +1,17 @@
+schema_version: 1
+statuses: [DIRECT, SCRIPT_FALLBACK, THIN_MCP_EXTENSION, MANUAL_REQUIRED, UNSUPPORTED]
+capabilities:
+  - {id: narrative.trace_change, mutability: WRITE, status: DIRECT, backend: studio, evidence: OBSERVED}
+  - {id: godot.project.inspect, mutability: READ, status: THIN_MCP_EXTENSION, backend: godot-mcp, evidence: OBSERVED}
+  - {id: godot.scene.read, mutability: READ, status: THIN_MCP_EXTENSION, backend: godot-mcp, evidence: OBSERVED}
+  - {id: godot.scene.edit, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: godot-mcp, evidence: PERSISTED}
+  - {id: godot.resource.read, mutability: READ, status: THIN_MCP_EXTENSION, backend: godot-mcp, evidence: OBSERVED}
+  - {id: godot.resource.edit, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: godot-mcp, evidence: PERSISTED}
+  - {id: godot.script.validate, mutability: EXECUTE, status: SCRIPT_FALLBACK, backend: godot-headless, evidence: RUNTIME}
+  - {id: godot.runtime.observe, mutability: READ, status: THIN_MCP_EXTENSION, backend: godot-mcp, evidence: RUNTIME}
+  - {id: godot.runtime.input, mutability: EXECUTE, status: THIN_MCP_EXTENSION, backend: godot-mcp, evidence: RUNTIME}
+  - {id: godot.runtime.exec, mutability: EXECUTE, status: THIN_MCP_EXTENSION, backend: godot-mcp, evidence: RUNTIME}
+  - {id: godot.test.run, mutability: EXECUTE, status: SCRIPT_FALLBACK, backend: godot-headless, evidence: RUNTIME}
+  - {id: godot.package.export, mutability: EXECUTE, status: SCRIPT_FALLBACK, backend: godot-export, evidence: RUNTIME}
+  - {id: audio.music_production, mutability: WRITE, status: MANUAL_REQUIRED, backend: provider-neutral, evidence: RUNTIME}
+  - {id: audio.voice_production, mutability: WRITE, status: MANUAL_REQUIRED, backend: provider-neutral, evidence: RUNTIME}

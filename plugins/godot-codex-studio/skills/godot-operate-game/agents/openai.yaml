@@ -1,0 +1,4 @@
+interface:
+  display_name: "Operate Godot 4 Game"
+  short_description: "Plan Godot 4 live operations and player support."
+  default_prompt: "Use $godot-operate-game for my shipped Godot 4 game."

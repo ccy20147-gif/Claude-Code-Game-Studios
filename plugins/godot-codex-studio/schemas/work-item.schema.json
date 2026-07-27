@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "id", "discipline", "work_type", "baseline_revision", "status"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^work_[a-z0-9_]+$"},
+    "discipline": {"enum": ["design", "code", "art", "audio", "narrative", "qa", "production", "release"]},
+    "work_type": {"type": "string"},
+    "baseline_revision": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["DRAFT", "READY", "IN_PROGRESS", "BLOCKED", "PENDING_LOCAL_VALIDATION", "DONE"]}
+  },
+  "additionalProperties": true
+}

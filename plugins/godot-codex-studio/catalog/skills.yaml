@@ -1,0 +1,42 @@
+schema_version: 1
+plugin: godot-codex-studio
+skills:
+  - {name: godot-start-project, status: active, owner: project_profile, artifacts: [.godot-codex-studio/project.yaml], legacy: [start, help, project-stage-detect, onboard]}
+  - {name: godot-setup-toolchain, status: active, owner: toolchain_lock, artifacts: [.godot-codex-studio/toolchain-lock.yaml], legacy: [setup-engine]}
+  - {name: godot-ingest-project, status: active, owner: intake_bundle, artifacts: [intake/source-manifest.yaml, intake/intake-bundle.yaml], legacy: [adopt, reverse-document]}
+  - {name: godot-reconcile-gdd, status: active, owner: canonical_gdd, artifacts: [intake/gdd-reconciliation.yaml, design/gdd/gdd.yaml], legacy: []}
+  - {name: godot-conceive-game, status: active, owner: concept_candidates, artifacts: [design/concept-options.yaml], legacy: [brainstorm]}
+  - {name: godot-adapt-story, status: active, owner: narrative_registry, artifacts: [intake/source-manifest.yaml, design/narrative-registry.yaml], legacy: []}
+  - {name: godot-map-systems, status: active, owner: system_map, artifacts: [design/system-map.yaml], legacy: [map-systems]}
+  - {name: godot-accept-baseline, status: active, owner: design_baseline, artifacts: [design/baseline.yaml], legacy: [gate-check]}
+  - {name: godot-change-design, status: active, owner: change_ledger, artifacts: [production/change-ledger.yaml], legacy: [propagate-design-change, quick-design]}
+  - {name: godot-design-system, status: active, owner: system_specs, artifacts: [design/systems], legacy: [design-system]}
+  - {name: godot-design-narrative, status: active, owner: narrative_specs, artifacts: [design/narrative], legacy: [team-narrative]}
+  - {name: godot-design-investigation, status: active, owner: truth_graph, artifacts: [design/truth-graph.yaml], legacy: []}
+  - {name: godot-design-level, status: active, owner: level_specs, artifacts: [design/levels], legacy: [team-level]}
+  - {name: godot-design-art, status: active, owner: art_bible, artifacts: [design/art-bible.yaml], legacy: [art-bible]}
+  - {name: godot-design-audio, status: active, owner: audio_bible, artifacts: [design/audio-bible.yaml], legacy: []}
+  - {name: godot-design-ux, status: active, owner: ux_specs, artifacts: [design/ux], legacy: [ux-design, ux-review, team-ui]}
+  - {name: godot-design-architecture, status: active, owner: architecture, artifacts: [docs/architecture], legacy: [create-architecture, architecture-decision, architecture-review, create-control-manifest]}
+  - {name: godot-plan-simulation, status: active, owner: simulation_contract, artifacts: [design/simulation.yaml], legacy: []}
+  - {name: godot-plan-persistence, status: active, owner: save_contract, artifacts: [design/persistence.yaml], legacy: []}
+  - {name: godot-spec-assets, status: active, owner: asset_manifest, artifacts: [assets/asset-manifest.yaml], legacy: [asset-spec]}
+  - {name: godot-run-prototype, status: active, owner: prototype_report, artifacts: [prototypes], legacy: [prototype]}
+  - {name: godot-build-slice, status: active, owner: slice_report, artifacts: [production/vertical-slice.yaml], legacy: [vertical-slice]}
+  - {name: godot-plan-work, status: active, owner: work_plan, artifacts: [production/work-items], legacy: [create-epics, create-stories, sprint-plan, sprint-status, estimate, milestone-review, retrospective]}
+  - {name: godot-execute-work, status: active, owner: work_execution, artifacts: [production/evidence], legacy: [dev-story, story-readiness, story-done, code-review, team-combat]}
+  - {name: godot-produce-assets, status: active, owner: asset_production, artifacts: [assets/production], legacy: []}
+  - {name: godot-produce-audio, status: active, owner: audio_production, artifacts: [assets/audio], legacy: [team-audio]}
+  - {name: godot-localize-content, status: active, owner: localization_registry, artifacts: [design/localization.yaml], legacy: [localize]}
+  - {name: godot-review-design, status: active, owner: design_review, artifacts: [production/reviews], legacy: [design-review, review-all-gdds, consistency-check, scope-check]}
+  - {name: godot-test-project, status: active, owner: qa_evidence, artifacts: [tests, production/evidence], legacy: [qa-plan, smoke-check, soak-test, regression-suite, test-setup, test-helpers, test-evidence-review, test-flakiness, team-qa]}
+  - {name: godot-run-playtest, status: active, owner: playtest_reports, artifacts: [production/playtests], legacy: [playtest-report]}
+  - {name: godot-profile-performance, status: active, owner: performance_reports, artifacts: [production/performance], legacy: [perf-profile, team-polish]}
+  - {name: godot-check-balance, status: active, owner: balance_reports, artifacts: [production/balance], legacy: [balance-check]}
+  - {name: godot-audit-assets-content, status: active, owner: content_audits, artifacts: [production/audits], legacy: [asset-audit, content-audit]}
+  - {name: godot-audit-accessibility, status: active, owner: accessibility_audit, artifacts: [production/accessibility], legacy: []}
+  - {name: godot-audit-security, status: active, owner: security_audit, artifacts: [production/security], legacy: [security-audit]}
+  - {name: godot-triage-issues, status: active, owner: issue_register, artifacts: [production/issues], legacy: [bug-report, bug-triage, tech-debt]}
+  - {name: godot-release-game, status: active, owner: release_record, artifacts: [production/releases], legacy: [release-checklist, launch-checklist, changelog, patch-notes, team-release]}
+  - {name: godot-hotfix-game, status: active, owner: hotfix_record, artifacts: [production/hotfixes], legacy: [hotfix, day-one-patch]}
+  - {name: godot-operate-game, status: active, owner: operations_plan, artifacts: [production/operations], legacy: [team-live-ops]}

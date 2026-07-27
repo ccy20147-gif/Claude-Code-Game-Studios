@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run Godot 4 Playtest"
+  short_description: "Plan and analyze Godot 4 player playtests."
+  default_prompt: "Use $godot-run-playtest to plan my Godot 4 playtest."

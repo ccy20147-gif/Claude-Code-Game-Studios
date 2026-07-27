@@ -1,116 +1,47 @@
-# Codex UE Game Studios
+# Codex Game Studios
 
-面向 Codex 的 Unreal Engine 5 游戏开发插件。它将零想法、小说或剧本、
-已有游戏方案、以及已有 UE 工程，统一转为可追溯的设计、制作、验证、发布和运营工作流。
+面向 Codex 的可追溯游戏开发工作流。仓库同时提供独立安装的 UE5 与 Godot 4 插件；它们共享稳定的设计契约，但不存在运行时跨插件依赖。
 
-核心工作流不依赖 MCP。可以先完成创意、叙事、系统、关卡、音频、UX、架构和工作计划；
-只有需要让 Codex 自动操作 Unreal Editor 或 Blender 时，才进入 MCP 配置与实机验证阶段。
+## 插件
 
-## 能做什么
+| 引擎 | 插件 | 入口 |
+| --- | --- | --- |
+| Unreal Engine 5 | `ue5-codex-studio` | `$ue5-start-project` |
+| Godot 4 | `godot-codex-studio` | `$godot-start-project` |
 
-- 39 个 Codex skills，覆盖项目启动、外部 GDD 规范化、剧本改编、设计、资产、制作、QA、发布与运营。
-- 将小说、剧本或设定转为带来源定位的剧情、角色、叙事节点、游戏需求和核心玩法循环。
-- 接收已有 GDD、原型或 UE 工程；二进制 UE 资产会被标记为需要编辑器验证，不会按文件名臆测其语义。
-- 支持叙事冒险、侦探推理、Kenshi 类沙盒，以及 2D、2.5D、3D 项目的条件化交付门槛。
-- 在文案改动后追踪受影响的本地化、字幕、配音、过场、线索、关卡触发、测试和证据。
-- 以供应商无关的方式规划并制作音乐、音效和配音。
-
-## 前置条件
-
-### 仅使用设计与工作流
-
-以下是安装和运行核心插件所需的全部条件：
-
-- Codex CLI，已验证范围为 `>=0.145.0,<0.146.0`
-- Git
-- Python 3 与 PyYAML
-
-不需要安装 Unreal Engine、Blender、任何 MCP 服务或 MCP 源码仓库。没有编辑器的环境也可以完成剧本改编、GDD、系统规格、资产规格、工作拆解和静态验证。
-
-### 需要实际开发 UE 项目
-
-在需要编译、运行、打包或实机验证时，另行准备目标项目所需的 Unreal Engine。当前工具链锁定文件以 UE `5.7.4` 为验证目标；不同版本必须记录差异并重新验证，不能直接视为等价。
-
-### 需要自动操作 Unreal 或 Blender
-
-MCP 是可选的本地加速层，目前默认拒绝所有编辑器写操作。启用前必须同时具备：
-
-- 对应的本地 Unreal/Blender 安装，以及匹配版本的 MCP 服务。
-- 受你控制的 MCP 源码或维护分支，用于实现服务端令牌校验和动作白名单。仅在 Codex 客户端配置 `disabled_tools` 不是安全边界。
-- 锁定的服务构件与 SHA-256；`plugins/ue5-codex-studio/templates/toolchain-lock.yaml` 中未填写的哈希必须先审查并补齐。
-- 仅监听回环地址的服务、未提交到仓库的本地策略文件，以及通过环境变量注入的能力令牌。
-- 缺失令牌、错误令牌、危险操作、绕过网关、schema 漂移、多实例、超时、保存/重载和运行时 canary 的实测证据。
-
-当前锁定的候选上游为 `ChiR24/Unreal_mcp` 和 `dcc-mcp/dcc-mcp-blender`。插件不打包它们，也不会替你下载或启动服务。未完成上述条件时，保持 MCP 关闭，使用技能提供的人工/脚本回退路径。
-
-详细的安全边界、构件配置和剩余实机验证项见 [Handoff](plugins/ue5-codex-studio/HANDOFF.md)。
+两者各有 39 个 skills，覆盖项目启动、GDD 协调、故事改编、设计、制作、QA、发布与运营。外部文档中的“已通过”仅是待核验声明，必须先经 GDD 协调与用户确认才能接受基线。
 
 ## 安装
-
-GitHub 仓库地址为 `ccy20147-gif/codex-ue5-game-studio`。
 
 ```bash
 git clone https://github.com/ccy20147-gif/codex-ue5-game-studio.git
 cd codex-ue5-game-studio
 codex plugin marketplace add . --json
-codex plugin add ue5-codex-studio@donchitos-game-studios --json
-codex plugin list --json
+codex plugin add godot-codex-studio@donchitos-game-studios --json
+# 或：codex plugin add ue5-codex-studio@donchitos-game-studios --json
 ```
 
-最后一条命令应显示插件 `installed` 且 `enabled`。安装或更新后新开一个 Codex 对话线程，以加载最新 skill 内容。
+安装后开启新的 Codex 对话线程，以加载最新 skills。
 
-## 从哪里开始
+## Godot MCP
 
-在 Codex 中按项目起点调用对应 skill：
+Godot 的设计工作流不依赖 MCP。需要编辑器自动化时，调用 `$godot-setup-toolchain`。它先做只读预检，展示变更计划，并只在一次明确批准后安装固定的 `@satelliteoflove/godot-mcp@4.1.0`、部署 addon、写入 Codex stdio 配置、读回配置并执行编辑器 canary。
 
-| 起点 | 调用 | 结果 |
-| --- | --- | --- |
-| 还没有明确创意 | `$ue5-start-project` 或 `$ue5-conceive-game` | 有范围的概念与可验证体验契约 |
-| 小说、剧本或设定 | `$ue5-adapt-story` | 可追溯的叙事注册表、角色/剧情节点、需求与核心玩法循环 |
-| 已有 GDD、设计包或原型资料 | `$ue5-ingest-project` | 标准化 intake bundle 与缺口清单 |
-| 已有 Unreal 工程 | `$ue5-ingest-project` | 只读工程盘点、能力状态与后续路线 |
+正式接受范围为原生 Windows/Linux、Node.js 20+ 与 Godot `>=4.5,<4.8`；Godot 4.7.1 是已验证基线。C# 项目还需要 Godot .NET 编辑器及 .NET SDK 8+。WSL2、macOS、移动端和 Web 导出不在首版验收范围。
 
-`$ue5-start-project` 可根据起点自动路由。设计产出默认写入 `intake/`、`design/`、`docs/architecture/` 和 `production/`；这些目录是新工作流的项目空间，应保留在游戏项目中。
-
-外部 GDD 中的“已评审”或“已通过基线”只作为待核验来源信息。导入后使用 `$ue5-reconcile-gdd` 抽取内容、处理冲突并通过不限轮次的选项问答补齐不明确处；只有生成 `design/gdd/gdd.yaml`、清空开放问题并由用户确认后，才允许 `$ue5-accept-baseline` 进入验收。
-
-## 推荐流程
-
-```text
-启动/导入 -> 接受基线 -> 系统映射 -> 叙事、系统、关卡、艺术、音频、UX、架构设计
--> 工作计划 -> 原型或垂直切片 -> 制作 -> 测试与实机证据 -> 发布
-```
-
-剧本改编后的常用路径是：`$ue5-adapt-story`、`$ue5-accept-baseline`、`$ue5-map-systems`、`$ue5-design-narrative`、`$ue5-design-system`、`$ue5-plan-work`。设计变更使用 `$ue5-change-design`，避免文本、配音、线索和测试状态脱节。
-
-## 验证插件
-
-在仓库根目录运行：
+## 验证
 
 ```bash
 python3 -m unittest discover -s plugins/ue5-codex-studio/tests -v
+python3 -m unittest discover -s plugins/godot-codex-studio/tests -v
 python3 plugins/ue5-codex-studio/scripts/validate_studio.py
-python3 plugins/ue5-codex-studio/scripts/validate_mcp_security_policy.py \
-  plugins/ue5-codex-studio/templates/mcp-security-policy.yaml
-python3 "$CODEX_HOME/skills/.system/plugin-creator/scripts/validate_plugin.py" \
-  plugins/ue5-codex-studio
+python3 plugins/godot-codex-studio/scripts/validate_studio.py
+python3 plugins/godot-codex-studio/scripts/sync_shared_contracts.py plugins/ue5-codex-studio --check
+python3 plugins/godot-codex-studio/scripts/sync_shared_contracts.py plugins/godot-codex-studio --check
 git diff --check
 ```
 
-这些检查验证插件结构、工作流契约和默认拒绝的 MCP 策略；它们不能替代真实 UE/Blender 环境中的保存、重载和运行时 canary。
-
-## 目录说明
-
-```text
-.agents/plugins/marketplace.json    仓库内 Codex marketplace 定义
-plugins/ue5-codex-studio/           插件、skills、契约、脚本和测试
-design/                             新插件的游戏设计产出
-docs/architecture/                  新插件的架构决策与架构产出
-production/                         工作项、证据、构建与发布产出
-.claude/                            原 Claude Code 模板的历史参考，不是 Codex 运行时
-```
-
-旧 Claude 会话状态目录与旧技能测试框架已移除。`.claude/` 保留为来源和历史资料，不应再被视为本插件的可运行依赖。
+这些静态测试不替代真实 Godot 编辑器中的保存、重载、输入、截图、`godot_exec`、停止运行和错误日志 canary。
 
 ## 许可证
 

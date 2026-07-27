@@ -1,0 +1,6 @@
+[application]
+config/name="Godot GDScript Fixture"
+run/main_scene="res://main.tscn"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"

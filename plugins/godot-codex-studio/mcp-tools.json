@@ -1,0 +1,9 @@
+{
+  "upstream": "@satelliteoflove/godot-mcp@4.1.0",
+  "tools": [
+    "godot_scene", "godot_node_read", "godot_node_edit", "godot_editor_read", "godot_editor_edit",
+    "godot_project", "godot_animation_read", "godot_animation_edit", "godot_tilemap_read", "godot_tilemap_edit",
+    "godot_gridmap_read", "godot_gridmap_edit", "godot_resource", "godot_scene3d", "godot_docs",
+    "godot_input", "godot_profiler", "godot_runtime_state", "godot_game_time", "godot_exec", "godot_validate_meshes"
+  ]
+}

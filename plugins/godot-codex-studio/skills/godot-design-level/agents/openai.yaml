@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Godot 4 Level"
+  short_description: "Specify a Godot 4 level, scene, or mission space."
+  default_prompt: "Use -design-level for my Godot 4 project."

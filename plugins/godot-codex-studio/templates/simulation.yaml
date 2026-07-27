@@ -1,0 +1,6 @@
+schema_version: 1
+entity_id_strategy: stable
+seeded_subsystems: []
+event_log: []
+soak_hours: [2, 8, 24]
+nondeterministic_exclusions: [physics, rendering]

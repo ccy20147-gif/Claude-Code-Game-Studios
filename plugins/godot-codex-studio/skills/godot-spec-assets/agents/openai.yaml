@@ -1,0 +1,4 @@
+interface:
+  display_name: "Specify Godot 4 Assets"
+  short_description: "Create traceable game asset specifications."
+  default_prompt: "Use -spec-assets for my Godot 4 project."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Godot 4 Project"
+  short_description: "Route a Godot 4 game project into the right workflow."
+  default_prompt: "Use $godot-start-project to route my Godot 4 project."

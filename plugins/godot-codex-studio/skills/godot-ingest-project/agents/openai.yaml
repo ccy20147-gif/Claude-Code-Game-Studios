@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ingest Godot 4 Project"
+  short_description: "Import existing Godot 4 games and external design sources."
+  default_prompt: "Use $godot-ingest-project for my Godot 4 project or design pack."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Produce Godot 4 Assets"
+  short_description: "Produce approved Godot 4 game assets."
+  default_prompt: "Use $godot-produce-assets for my approved Godot 4 asset work."

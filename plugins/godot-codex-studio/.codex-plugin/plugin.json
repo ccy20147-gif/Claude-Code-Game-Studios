@@ -1,0 +1,26 @@
+{
+  "name": "godot-codex-studio",
+  "version": "0.1.0",
+  "description": "Structured Godot 4 game-development workflows for Codex.",
+  "author": {
+    "name": "Donchitos",
+    "url": "https://github.com/Donchitos"
+  },
+  "repository": "https://github.com/ccy20147-gif/codex-ue5-game-studio",
+  "license": "MIT",
+  "keywords": ["godot", "godot-4", "game-development", "narrative"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Godot Codex Studio",
+    "shortDescription": "Plan, build, and validate Godot 4 games in Codex.",
+    "longDescription": "Godot 4 workflows for concept, narrative, design, production, QA, release, and operations. The optional local MCP bridge is installed only after explicit approval and must pass an editor canary.",
+    "developerName": "Donchitos",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "Use $godot-start-project to route my Godot game project.",
+      "Use $godot-adapt-story to turn this story into a game plan.",
+      "Use $godot-ingest-project to assess my existing Godot project."
+    ]
+  }
+}

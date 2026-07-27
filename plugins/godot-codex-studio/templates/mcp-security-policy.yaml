@@ -1,0 +1,13 @@
+schema_version: 1
+# Copy to a local ignored location. Do not add secrets to this file.
+server:
+  package: '@satelliteoflove/godot-mcp@4.1.0'
+  host: 127.0.0.1
+  port: 6550
+  usage_log: disabled
+codex:
+  default_tools_approval_mode: writes
+policy:
+  read_tools: automatic
+  approval_required_for: [edit, run, input, godot_exec]
+  reject_non_loopback: true

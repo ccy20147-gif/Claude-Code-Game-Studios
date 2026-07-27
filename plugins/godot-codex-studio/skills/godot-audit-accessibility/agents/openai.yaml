@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Godot 4 Accessibility"
+  short_description: "Audit Godot 4 accessibility across player journeys."
+  default_prompt: "Use $godot-audit-accessibility on my Godot 4 game."

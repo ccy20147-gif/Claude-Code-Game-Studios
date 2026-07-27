@@ -1,0 +1,4 @@
+interface:
+  display_name: "Conceive Godot 4 Game"
+  short_description: "Turn a rough idea into bounded Godot 4 game concepts."
+  default_prompt: "Use -conceive-game for my Godot 4 project."

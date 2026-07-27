@@ -1,0 +1,4 @@
+interface:
+  display_name: "Localize Game Content"
+  short_description: "Manage strings, subtitles, and localized voice."
+  default_prompt: "Use -localize-content for my Godot 4 project."

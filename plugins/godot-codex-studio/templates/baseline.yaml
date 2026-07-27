@@ -1,0 +1,17 @@
+schema_version: 1
+id: baseline_game
+revision: 1
+status: DRAFT
+gdd:
+  path: design/gdd/gdd.yaml
+  revision: null
+acceptance:
+  status: PENDING
+  approver: null
+  record: null
+requirements: []
+invariants: []
+budgets: {}
+persistence_boundaries: []
+tuning_ranges: {}
+waivers: []

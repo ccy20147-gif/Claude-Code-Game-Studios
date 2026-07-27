@@ -1,0 +1,8 @@
+schema_version: 1
+marketplace:
+  repository: https://github.com/ccy20147-gif/codex-godot-game-studio
+  commit: null
+plugin:
+  name: godot-codex-studio
+  version: null
+  manifest_sha256: null

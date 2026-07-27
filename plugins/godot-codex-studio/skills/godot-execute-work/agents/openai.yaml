@@ -1,0 +1,4 @@
+interface:
+  display_name: "Execute Godot 4 Work"
+  short_description: "Implement an approved Godot 4 work item safely."
+  default_prompt: "Use -execute-work for my Godot 4 project."

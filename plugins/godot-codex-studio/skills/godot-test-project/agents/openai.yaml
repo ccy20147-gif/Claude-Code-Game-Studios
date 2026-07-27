@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Godot 4 Project"
+  short_description: "Plan and evaluate Godot 4 QA evidence."
+  default_prompt: "Use -test-project for my Godot 4 project."

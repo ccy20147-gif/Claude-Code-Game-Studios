@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Godot 4 Architecture"
+  short_description: "Create Godot 4 architecture decisions and boundaries."
+  default_prompt: "Use -design-architecture for my Godot 4 project."

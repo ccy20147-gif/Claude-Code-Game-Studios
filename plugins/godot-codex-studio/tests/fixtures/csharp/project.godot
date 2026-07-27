@@ -1,0 +1,3 @@
+[application]
+config/name="Godot CSharp Fixture"
+run/main_scene="res://Main.tscn"

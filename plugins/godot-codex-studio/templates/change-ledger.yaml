@@ -1,0 +1,8 @@
+schema_version: 1
+id: change_example
+classification: COPY_EDIT
+source_hash_before: null
+source_hash_after: null
+changes: []
+stale: []
+approval_record: null

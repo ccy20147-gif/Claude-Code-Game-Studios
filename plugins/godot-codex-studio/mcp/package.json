@@ -1,0 +1,10 @@
+{
+  "name": "godot-codex-studio-mcp-lock",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Locked upstream dependency for Godot Codex Studio.",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@satelliteoflove/godot-mcp": "4.1.0"
+  }
+}

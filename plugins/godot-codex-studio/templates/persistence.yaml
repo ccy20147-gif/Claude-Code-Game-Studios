@@ -1,0 +1,5 @@
+schema_version: 1
+released: false
+current_schema: 1
+migration_paths: []
+corruption_behavior: fail_safe

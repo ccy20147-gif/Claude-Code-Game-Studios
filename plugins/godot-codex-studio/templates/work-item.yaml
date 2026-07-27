@@ -1,0 +1,11 @@
+schema_version: 1
+id: work_example
+discipline: code
+work_type: feature
+baseline_revision: 1
+requirements: []
+deliverables: []
+dependencies: []
+capabilities: []
+acceptance_evidence: []
+status: DRAFT

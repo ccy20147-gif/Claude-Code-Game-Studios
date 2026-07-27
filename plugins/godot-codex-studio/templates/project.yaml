@@ -1,0 +1,24 @@
+schema_version: 1
+lifecycle: concept
+mode: standard
+review: adaptive
+profiles:
+  experience: linear
+  presentation: 3d
+  investigation: none
+  runtime: single
+  operations:
+    packaged: true
+    live_service: false
+    moddable: false
+audio:
+  music: true
+  sfx: true
+  text_dialogue: true
+  source_vo: false
+  localized_vo: false
+source_locale: en
+target_locales: []
+shipping_targets: [windows, linux]
+authority_map: {}
+assumptions: []

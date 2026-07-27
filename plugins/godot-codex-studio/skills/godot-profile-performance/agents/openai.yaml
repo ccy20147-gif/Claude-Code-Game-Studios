@@ -1,0 +1,4 @@
+interface:
+  display_name: "Profile Godot 4 Performance"
+  short_description: "Profile Godot 4 runtime and packaging performance."
+  default_prompt: "Use $godot-profile-performance for my Godot 4 project."

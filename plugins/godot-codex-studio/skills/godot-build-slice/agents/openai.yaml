@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Vertical Slice"
+  short_description: "Validate a representative Godot 4 production slice."
+  default_prompt: "Use -build-slice for my Godot 4 project."

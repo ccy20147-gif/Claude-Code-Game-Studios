@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Godot 4 Design"
+  short_description: "Review Godot 4 design for consistency and scope."
+  default_prompt: "Use $godot-review-design on my Godot 4 design artifacts."

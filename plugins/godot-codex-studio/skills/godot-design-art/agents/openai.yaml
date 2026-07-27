@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Art Direction"
+  short_description: "Create a Godot 4 art and technical-art contract."
+  default_prompt: "Use -design-art for my Godot 4 project."

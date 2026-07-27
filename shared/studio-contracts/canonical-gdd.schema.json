@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "id", "revision", "status", "source_refs", "sections", "questions", "baseline_eligibility", "user_confirmation"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^gdd_[a-z0-9_]+$"},
+    "revision": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["DRAFT", "RECONCILING", "READY_FOR_BASELINE", "SUPERSEDED"]},
+    "source_refs": {"type": "array"},
+    "external_claims": {"type": "array"},
+    "sections": {"type": "array"},
+    "questions": {"type": "array"},
+    "baseline_eligibility": {"type": "object"},
+    "user_confirmation": {"type": "object"}
+  },
+  "additionalProperties": true
+}

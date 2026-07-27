@@ -1,0 +1,27 @@
+schema_version: 1
+godot:
+  verified_version: 4.7.1
+  accepted_range: '>=4.5,<4.8'
+  hosts: [windows, linux]
+  unsupported_hosts: [wsl2, macos]
+  supported_exports: [windows, linux]
+  unsupported_exports: [android, ios, web]
+node:
+  required_range: '>=20'
+dotnet:
+  required_for_csharp: true
+  required_range: '>=8'
+mcp:
+  package: '@satelliteoflove/godot-mcp'
+  version: 4.1.0
+  tarball_sha256: 3f6df8842219ba6ca763cb310019147dbb16cd695a48d7316a727de2d38705a9
+  loopback_host: 127.0.0.1
+  loopback_port: 6550
+  default_tools_approval_mode: writes
+  usage_log: disabled
+  tool_count: 21
+provisioning:
+  downloads_embedded: false
+  require_approval: true
+  require_sha256: true
+  require_editor_canary: true

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Set Up Godot 4 Toolchain"
+  short_description: "Check Godot 4, Blender, Codex, and MCP readiness."
+  default_prompt: "Use -setup-toolchain to check my Godot 4 workstation."

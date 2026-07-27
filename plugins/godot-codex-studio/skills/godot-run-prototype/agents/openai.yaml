@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run Godot 4 Prototype"
+  short_description: "Test a high-risk game hypothesis in isolation."
+  default_prompt: "Use -run-prototype for my Godot 4 project."

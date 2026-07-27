@@ -100,6 +100,7 @@ __pycache__/
 *.pyc
 node_modules/
 .npm/
+.godot-codex-studio/toolchain-lock.yaml
 
 # === Archives ===
 *.zip

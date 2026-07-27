@@ -1,0 +1,4 @@
+interface:
+  display_name: "Check Godot 4 Balance"
+  short_description: "Evaluate Godot 4 game economy and system balance."
+  default_prompt: "Use $godot-check-balance on my Godot 4 systems."

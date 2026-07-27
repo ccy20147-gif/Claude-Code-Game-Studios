@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Godot 4 Work"
+  short_description: "Turn accepted requirements into work items."
+  default_prompt: "Use -plan-work for my Godot 4 project."

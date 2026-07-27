@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release Godot 4 Game"
+  short_description: "Prepare a Godot 4 release with evidence and rollback."
+  default_prompt: "Use $godot-release-game to prepare my Godot 4 release."

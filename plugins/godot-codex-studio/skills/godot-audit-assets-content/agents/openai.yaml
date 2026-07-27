@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Godot 4 Content"
+  short_description: "Audit Godot 4 assets, content, rights, and provenance."
+  default_prompt: "Use $godot-audit-assets-content for my Godot 4 project."

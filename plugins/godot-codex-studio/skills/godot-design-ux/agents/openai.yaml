@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Godot 4 UX"
+  short_description: "Define accessible Godot 4 interface and interaction flows."
+  default_prompt: "Use -design-ux for my Godot 4 project."

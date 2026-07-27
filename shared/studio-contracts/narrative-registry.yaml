@@ -1,0 +1,12 @@
+schema_version: 1
+source_spans: []
+coverage: []
+adaptations: []
+characters: []
+beats: []
+game_requirements: []
+core_loop:
+  player_actions: []
+  success_state: null
+  failure_or_cost: null
+  feedback: []

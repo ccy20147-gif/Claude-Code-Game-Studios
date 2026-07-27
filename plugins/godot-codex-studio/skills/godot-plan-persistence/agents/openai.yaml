@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan Save Persistence"
+  short_description: "Design Autoload + user:// schemas and migrations."
+  default_prompt: "Use -plan-persistence for my Godot 4 project."

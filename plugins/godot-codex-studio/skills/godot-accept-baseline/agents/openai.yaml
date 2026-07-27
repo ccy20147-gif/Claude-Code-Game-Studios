@@ -1,0 +1,4 @@
+interface:
+  display_name: "Accept Design Baseline"
+  short_description: "Validate a reconciled GDD and approve its baseline."
+  default_prompt: "Use $godot-accept-baseline for my reconciled Godot 4 design."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Godot 4 Security"
+  short_description: "Audit game, save, MCP, and release security."
+  default_prompt: "Use -audit-security for my Godot 4 project."
