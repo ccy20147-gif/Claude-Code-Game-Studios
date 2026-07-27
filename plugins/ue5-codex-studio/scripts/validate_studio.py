@@ -47,6 +47,9 @@ def main() -> int:
         "scripts/mcp_security.py",
         "scripts/run_mcp_guard.py",
         "scripts/validate_mcp_security_policy.py",
+        "scripts/validate_asset_registry.py",
+        "scripts/validate_blender_gateway_manifest.py",
+        "scripts/validate_gltf_asset.py",
         "scripts/provision_mcp.py",
         "scripts/provision_ue5ultimatemcp.py",
         "scripts/run_ue5ultimatemcp_canary.py",
@@ -59,6 +62,9 @@ def main() -> int:
         "scripts/validate_canonical_gdd.py",
         "scripts/validate_baseline.py",
         "templates/canonical-gdd.yaml",
+        "templates/asset-registry.yaml",
+        "templates/dcc-modeling-policy.yaml",
+        "integrations/blender-mcp/gateway-manifest.yaml",
     )
     for relative in required_files:
         if not (ROOT / relative).is_file():

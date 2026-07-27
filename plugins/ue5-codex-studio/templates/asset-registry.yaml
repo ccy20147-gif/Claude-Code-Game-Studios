@@ -1,0 +1,7 @@
+schema_version: 1
+# Project-local registry for every shipped or runtime-affecting content asset.
+# GDD/work items/code/Codex skills stay in their own registries. Gameplay ability
+# rules use ability_id; this registry tracks the art/audio/data assets they reference.
+# Generated assets remain PENDING_LOCAL_VALIDATION until their source, technical
+# checks, and target-engine import are evidenced.
+assets: []

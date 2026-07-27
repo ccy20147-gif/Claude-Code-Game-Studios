@@ -494,6 +494,74 @@ schema_drift_policy: fail_closed
         self.assertIsNone(authorized)
         self.assertEqual(code, "ACTION_DENIED")
 
+    def test_dcc_modeling_policy_allows_new_assets_but_approves_existing_changes(self) -> None:
+        policy = load_policy(str(ROOT / "templates/dcc-modeling-policy.yaml"))
+        binding = {"instance_id": "blender_1", "catalog_generation": 1, "schema_hash": "catalog_1"}
+        create = {
+            "backend": "blender-mcp", "capability_id": "dcc.model.create_mesh", "tool": "call", "action": "create_mesh",
+            "skill_name": "modeling", "backend_tool": "create_mesh", "binding": binding, "expected_binding": binding,
+        }
+        self.assertTrue(authorize(policy, create).allowed)
+        edit = {
+            "backend": "blender-mcp", "capability_id": "dcc.model.modify_existing", "tool": "call", "action": "edit_existing_mesh",
+            "skill_name": "modeling", "backend_tool": "edit_existing_mesh", "binding": binding, "expected_binding": binding,
+        }
+        self.assertEqual(authorize(policy, edit).code, "APPROVAL_REQUIRED")
+        edit["approval_record"] = "approval_1"
+        self.assertTrue(authorize(policy, edit).allowed)
+        delete = {
+            "backend": "blender-mcp", "capability_id": "dcc.asset.delete", "tool": "call", "action": "delete_asset",
+            "skill_name": "asset_management", "backend_tool": "delete_asset", "binding": binding, "expected_binding": binding,
+        }
+        self.assertEqual(authorize(policy, delete).code, "APPROVAL_REQUIRED")
+        create.pop("backend_tool")
+        self.assertEqual(authorize(policy, create).code, "STABLE_IDENTITY_REQUIRED")
+
+    def test_asset_registry_requires_ai_provenance_and_validated_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            registry = Path(temporary) / "assets.yaml"
+            asset = {
+                "schema_version": 1,
+                "assets": [{
+                    "id": "asset_sword_mesh", "kind": "mesh", "status": "VALIDATED",
+                    "source": {"origin": "AI_GENERATED", "provider": "openai", "model": "image-model", "prompt_sha256": "a" * 64, "artifact_sha256": "b" * 64, "rights_record": "rights_001"},
+                    "files": ["Source/Sword.blend", "Export/Sword.glb"],
+                    "target": {"engine": "UE5", "destination": "/Game/Weapons/Sword"},
+                    "requirement_ids": ["req_combat"], "ability_ids": ["ability_sword_light"], "validation_evidence": ["evidence_sword_import"],
+                }],
+            }
+            registry.write_text(yaml.safe_dump(asset), encoding="utf-8")
+            result = self.run_script("scripts/validate_asset_registry.py", str(registry))
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            asset["assets"][0]["source"].pop("prompt_sha256")
+            registry.write_text(yaml.safe_dump(asset), encoding="utf-8")
+            result = self.run_script("scripts/validate_asset_registry.py", str(registry))
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("prompt_sha256", result.stderr)
+
+    def test_gltf_validator_requires_complete_decreasing_lods(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            asset = Path(temporary) / "sword.gltf"
+            document = {
+                "asset": {"version": "2.0"},
+                "accessors": [
+                    {"count": 6}, {"count": 6}, {"count": 6}, {"count": 6, "componentType": 5123},
+                    {"count": 3}, {"count": 3}, {"count": 3}, {"count": 3, "componentType": 5123},
+                ],
+                "meshes": [
+                    {"name": "Sword_LOD0", "primitives": [{"attributes": {"POSITION": 0, "NORMAL": 1, "TEXCOORD_0": 2}, "indices": 3}]},
+                    {"name": "Sword_LOD1", "primitives": [{"attributes": {"POSITION": 4, "NORMAL": 5, "TEXCOORD_0": 6}, "indices": 7}]},
+                ],
+            }
+            asset.write_text(json.dumps(document), encoding="utf-8")
+            result = self.run_script("scripts/validate_gltf_asset.py", str(asset), "--require-lods", "2")
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            document["meshes"][1]["name"] = "Sword_LOD2"
+            asset.write_text(json.dumps(document), encoding="utf-8")
+            result = self.run_script("scripts/validate_gltf_asset.py", str(asset), "--require-lods", "2")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("expected", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

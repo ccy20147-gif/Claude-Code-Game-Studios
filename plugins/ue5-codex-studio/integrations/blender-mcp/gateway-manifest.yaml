@@ -1,0 +1,16 @@
+schema_version: 1
+# This is an offline contract, not a registered MCP configuration. Provisioning
+# must reject it until every pinned field below is replaced with observed values.
+gateway:
+  upstream: dcc-mcp/dcc-mcp-blender
+  adapter_sha256: null
+  core_sha256: null
+  endpoint: http://127.0.0.1:9765/mcp
+  protocol_schema_sha256: null
+  canary: PENDING
+tools:
+  - {skill_name: modeling, backend_tool: create_mesh, action: create_mesh, effect: CREATE}
+  - {skill_name: modeling, backend_tool: create_sculpt, action: create_sculpt, effect: CREATE}
+  - {skill_name: asset_import, backend_tool: import_new_asset, action: import_new_asset, effect: CREATE}
+  - {skill_name: modeling, backend_tool: edit_existing_mesh, action: edit_existing_mesh, effect: MODIFY}
+  - {skill_name: asset_management, backend_tool: delete_asset, action: delete_asset, effect: DELETE}

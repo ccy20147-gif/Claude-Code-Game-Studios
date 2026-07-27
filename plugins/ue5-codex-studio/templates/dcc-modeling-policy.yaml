@@ -1,0 +1,21 @@
+schema_version: 1
+# Activation policy for a checksum-locked, canaried Blender gateway only.
+# The gateway must resolve the stable skill/tool identity before dispatch.
+token:
+  environment: UE5_CODEX_MCP_GATEWAY_TOKEN
+  required: true
+backends:
+  blender-mcp:
+    endpoint: http://127.0.0.1:9765/mcp
+    require_binding: true
+    denied_tools: [execute_python]
+    denied_actions: [run_script, install_addon, export_outside_project]
+    routes:
+      # Default allowlist: new source assets only. These do not identify or
+      # overwrite an existing asset and must be written under the project DCC workspace.
+      - {capability_id: dcc.model.create_mesh, tool: call, action: create_mesh, effect: CREATE, skill_name: modeling, backend_tool: create_mesh}
+      - {capability_id: dcc.model.create_sculpt, tool: call, action: create_sculpt, effect: CREATE, skill_name: modeling, backend_tool: create_sculpt}
+      - {capability_id: dcc.asset.import_new, tool: call, action: import_new_asset, effect: CREATE, skill_name: asset_import, backend_tool: import_new_asset}
+      # Existing-asset mutation and all deletion require an explicit Codex writes approval.
+      - {capability_id: dcc.model.modify_existing, tool: call, action: edit_existing_mesh, effect: MODIFY, skill_name: modeling, backend_tool: edit_existing_mesh}
+      - {capability_id: dcc.asset.delete, tool: call, action: delete_asset, effect: DELETE, skill_name: asset_management, backend_tool: delete_asset}

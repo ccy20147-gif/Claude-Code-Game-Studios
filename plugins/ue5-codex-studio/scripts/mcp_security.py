@@ -78,7 +78,7 @@ def _validate_routes(backend_name: str, backend: dict[str, Any]) -> None:
         required = ("capability_id", "tool", "effect")
         if any(not isinstance(route.get(key), str) or not route[key] for key in required):
             raise PolicyError(f"backends.{backend_name}.routes[{index}] needs capability_id, tool, effect")
-        if route["effect"] not in {"READ", "WRITE", "EXECUTE"}:
+        if route["effect"] not in {"READ", "CREATE", "MODIFY", "DELETE", "WRITE", "EXECUTE"}:
             raise PolicyError(f"backends.{backend_name}.routes[{index}].effect is invalid")
         action = route.get("action", "")
         if action is not None and not isinstance(action, str):
@@ -144,7 +144,7 @@ def authorize(policy: dict[str, Any], request: dict[str, Any]) -> Decision:
             or route.get("backend_tool") != request.get("backend_tool")
         ):
             continue
-        if route["effect"] in {"WRITE", "EXECUTE"} and not request.get("approval_record"):
-            return Decision(False, "APPROVAL_REQUIRED", "mutation requires an approval record")
+        if route["effect"] in {"MODIFY", "DELETE", "WRITE", "EXECUTE"} and not request.get("approval_record"):
+            return Decision(False, "APPROVAL_REQUIRED", "editing or deleting an existing asset requires an approval record")
         return Decision(True, "ALLOWED", f"allowed by capability {capability_id}")
     return Decision(False, "ROUTE_REJECTED", "no explicit route authorizes this action")

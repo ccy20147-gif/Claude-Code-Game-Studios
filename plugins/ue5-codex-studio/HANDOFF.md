@@ -65,6 +65,8 @@ Never place a capability token in tracked UE config. Use an environment variable
 
 The adapter exposes health, discovery, level/Actor reads, viewport capture, and canary-map-only Actor creation/deletion. It never registers the upstream dynamic Node bridge or its high-risk tools. A self-hosted Windows UE 5.7 runner must run `scripts/run_ue5ultimatemcp_canary.py` with a dedicated `/Game/__CodexCanary_*` map and save/reload evidence before enabling write automation beyond this canary.
 
+`templates/dcc-modeling-policy.yaml` is the Blender/DCC activation contract. It allows only creating new meshes, sculpts, and new imports by default. Any existing-asset edit or deletion requires a Codex writes approval record. This policy remains inactive until the Blender gateway is checksum-locked, filters stable `(skill_name, backend_tool)` identities, and passes a DCC canary; it does not authorize raw scripts, addon installation, or exports outside the project workspace.
+
 `scripts/provision_mcp.py` is the approved second stage. It requires all three reviewed artifact paths (`unreal`, `blender-adapter`, and `blender-core`), matching immutable hashes, `--approve`, an explicit install root, and an explicit local state file. HTTPS download additionally needs `--allow-download`. It never writes credentials. `--start-services` is refused unless the local lock adds reviewed loopback service argv/health records. Copy `templates/local-toolchain.gitignore` into the target project before choosing a local state path.
 
 ## Required Upstream Extensions
