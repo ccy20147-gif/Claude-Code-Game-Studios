@@ -5,14 +5,16 @@ unreal:
   version: 5.7.4
   hosts: [windows, linux]
   mcp:
-    upstream: ChiR24/Unreal_mcp
-    version: 0.5.30
-    tag: v0.5.30
-    commit: b20b257cd771ce37fb6251a8f058a974baa4e851
-    artifact_sha256: null
-    endpoint: http://127.0.0.1:3000/mcp
+    upstream: NodeNestor/UE5UltimateMCP
+    version: 0.1.0-alpha
+    commit: 40d9c23d4125fc805f0cb669429a652318adaf37
+    source_archive: https://github.com/NodeNestor/UE5UltimateMCP/archive/40d9c23d4125fc805f0cb669429a652318adaf37.tar.gz
+    source_archive_sha256: 1aa05f1ac62d00e61d7d759c663afd06cfd39ef867f22e558ffd0eb3c38c14d1
+    node_lockfile_sha256: cdcf56517e16963b7b4bbc96e7c0e7fa3e96c9d02ceab3324642e0c70e988d3f
+    license: MIT
+    endpoint: http://127.0.0.1:9847
     server_policy: required
-    automation_status: experimental
+    automation_status: controlled_canary_only
 blender:
   version: 4.5
   hosts: [windows, linux]
@@ -30,3 +32,8 @@ provisioning:
   downloads_embedded: false
   require_sha256: true
   require_security_canary: true
+  ue5ultimatemcp:
+    hosts: [windows]
+    project_plugin_name: UE5UltimateMCP
+    codex_mcp_name: ue5ultimatemcp-controlled
+    state_path: .ue5-codex-studio/ue5ultimatemcp-local.json

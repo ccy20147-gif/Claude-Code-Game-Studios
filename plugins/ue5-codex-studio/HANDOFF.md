@@ -49,16 +49,21 @@ MCP is optional acceleration, never the only workflow path. Editor write automat
 `templates/toolchain-lock.yaml` targets:
 
 - Codex `>=0.145.0,<0.146.0`
-- Unreal `5.7.4`, UE MCP `v0.5.30`, tag `v0.5.30`, commit `b20b257cd771ce37fb6251a8f058a974baa4e851`
+- Unreal `5.7.4`, controlled `NodeNestor/UE5UltimateMCP` source commit `40d9c23d4125fc805f0cb669429a652318adaf37`
 - Blender `4.5`, `dcc-mcp-blender 0.1.40`, commit `e68a90993e9794d56bb7a9e3bd3c43e2dc7f9dc5`, `dcc-mcp-core 0.19.63`
 
-The UE tag was independently resolved to the locked commit. The Blender checkout matched the locked commit. The read-only provision plan intentionally remains `BLOCKED` until `unreal.mcp.artifact_sha256` and `blender.mcp.core_wheel_sha256` are supplied:
+The UE source archive, Node lockfile, and MIT license are checksum-locked. The generic artifact plan remains blocked for the separate Blender core artifact. Use the dedicated Windows-only UE provisioner for this integration:
 
 ```bash
 python3 plugins/ue5-codex-studio/scripts/plan_mcp_provision.py
+python3 plugins/ue5-codex-studio/scripts/provision_ue5ultimatemcp.py plan --project C:\\Game --ue-root C:\\Program\ Files\\Epic\ Games\\UE_5.7
 ```
 
 Never place a capability token in tracked UE config. Use an environment variable or an ignored local secret file. MCP endpoints must be loopback.
+
+`provision_ue5ultimatemcp.py install --approve` deploys only to `Plugins/UE5UltimateMCP` after source-hash verification, patching, actual `RunUAT BuildPlugin`, and a project backup. Set `UE5ULTIMATEMCP_TOKEN` from the protected local state before opening the editor. `doctor --accept-catalog --approve` performs token and loopback checks, binds the runtime schema hash, and then registers only the repository-owned stdio adapter. It refuses an existing same-name Codex MCP configuration. `remove --approve` removes that registration and restores the backup.
+
+The adapter exposes health, discovery, level/Actor reads, viewport capture, and canary-map-only Actor creation/deletion. It never registers the upstream dynamic Node bridge or its high-risk tools. A self-hosted Windows UE 5.7 runner must run `scripts/run_ue5ultimatemcp_canary.py` with a dedicated `/Game/__CodexCanary_*` map and save/reload evidence before enabling write automation beyond this canary.
 
 `scripts/provision_mcp.py` is the approved second stage. It requires all three reviewed artifact paths (`unreal`, `blender-adapter`, and `blender-core`), matching immutable hashes, `--approve`, an explicit install root, and an explicit local state file. HTTPS download additionally needs `--allow-download`. It never writes credentials. `--start-services` is refused unless the local lock adds reviewed loopback service argv/health records. Copy `templates/local-toolchain.gitignore` into the target project before choosing a local state path.
 

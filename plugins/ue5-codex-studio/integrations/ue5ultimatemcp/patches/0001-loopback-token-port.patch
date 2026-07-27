@@ -1,0 +1,107 @@
+diff --git a/Source/UE5UltimateMCP/Public/UltimateMCPServer.h b/Source/UE5UltimateMCP/Public/UltimateMCPServer.h
+index 1111111..2222222 100644
+--- a/Source/UE5UltimateMCP/Public/UltimateMCPServer.h
++++ b/Source/UE5UltimateMCP/Public/UltimateMCPServer.h
+@@ -58,5 +58,7 @@ private:
+ 	static void SendJsonResponse(const FHttpResultCallback& OnComplete, int32 StatusCode, const FString& Json);
+ 	static void SendJsonResponse(const FHttpResultCallback& OnComplete, int32 StatusCode, TSharedPtr<FJsonObject> Obj);
+ 
++	bool IsAuthorized(const FHttpServerRequest& Request) const;
++	bool RejectUnauthorized(const FHttpServerRequest& Request, const FHttpResultCallback& OnComplete) const;
+ 	/** URL decode helper. */
+ 	static FString UrlDecode(const FString& Encoded);
+@@ -67,5 +69,6 @@ private:
+ 	TQueue<TSharedPtr<FPendingRequest>> RequestQueue;
+ 	FTSTicker::FDelegateHandle TickHandle;
+ 	int32 ListenPort = 9847;
++	FString CapabilityToken;
+ 	bool bIsRunning = false;
+ };
+diff --git a/Source/UE5UltimateMCP/Private/UltimateMCPServer.cpp b/Source/UE5UltimateMCP/Private/UltimateMCPServer.cpp
+index 3333333..4444444 100644
+--- a/Source/UE5UltimateMCP/Private/UltimateMCPServer.cpp
++++ b/Source/UE5UltimateMCP/Private/UltimateMCPServer.cpp
+@@ -47,5 +47,5 @@ FString FUltimateMCPServer::UrlDecode(const FString& Encoded)
+ void FUltimateMCPServer::SendJsonResponse(const FHttpResultCallback& OnComplete, int32 StatusCode, const FString& Json)
+ {
+-	auto Response = FHttpServerResponse::Create(Json, TEXT("application/json"));
++	auto Response = FHttpServerResponse::Create(Json, TEXT("application/json"), static_cast<EHttpServerResponseCodes::Type>(StatusCode));
+ 	OnComplete(MoveTemp(Response));
+ }
+@@ -74,4 +74,12 @@ bool FUltimateMCPServer::Start(int32 Port)
+ 	if (bIsRunning) return true;
+ 
+ 	ListenPort = Port;
++	CapabilityToken = FPlatformMisc::GetEnvironmentVariable(TEXT("UE5ULTIMATEMCP_TOKEN"));
++	if (CapabilityToken.IsEmpty())
++	{
++		UE_LOG(LogUltimateMCP, Error, TEXT("UE5ULTIMATEMCP_TOKEN is required; refusing to start HTTP server"));
++		return false;
++	}
++	// The project-local Config/DefaultEngine.ini patch sets HttpServer's bind address to 127.0.0.1.
++	// The provisioner independently verifies the listener address before enabling Codex.
+ 	FHttpServerModule& HttpModule = FHttpServerModule::Get();
+@@ -203,2 +211,4 @@ bool FUltimateMCPServer::HandleHealth(const FHttpServerRequest& Request, const FHttpResultCallback& OnComplete)
+ {
++	if (RejectUnauthorized(Request, OnComplete)) return true;
++
+ 	TSharedPtr<FJsonObject> Obj = MakeShared<FJsonObject>();
+@@ -215,2 +225,4 @@ bool FUltimateMCPServer::HandleListTools(const FHttpServerRequest& Request, const FHttpResultCallback& OnComplete)
+ {
++	if (RejectUnauthorized(Request, OnComplete)) return true;
++
+ 	TArray<FMCPToolInfo> AllTools = FMCPToolRegistry::Get().GetAllToolInfos();
+@@ -252,2 +264,4 @@ bool FUltimateMCPServer::HandleExecuteTool(const FHttpServerRequest& Request, const FHttpResultCallback& OnComplete)
+ {
++	if (RejectUnauthorized(Request, OnComplete)) return true;
++
+ 	// Queue for game-thread execution
+@@ -276,2 +290,4 @@ bool FUltimateMCPServer::HandleShutdown(const FHttpServerRequest& Request, const FHttpResultCallback& OnComplete)
+ {
++	if (RejectUnauthorized(Request, OnComplete)) return true;
++
+ 	TSharedPtr<FJsonObject> Obj = MakeShared<FJsonObject>();
+@@ -289,2 +305,26 @@ bool FUltimateMCPServer::HandleShutdown(const FHttpServerRequest& Request, const FHttpResultCallback& OnComplete)
+ 	return true;
+ }
++
++bool FUltimateMCPServer::IsAuthorized(const FHttpServerRequest& Request) const
++{
++	for (const TPair<FString, FString>& Header : Request.Headers)
++	{
++		if (Header.Key.Equals(TEXT("X-UE5-Codex-Token"), ESearchCase::IgnoreCase))
++		{
++			const FString& Presented = Header.Value;
++			return Presented.Len() == CapabilityToken.Len()
++				&& FMemory::Memcmp(*Presented, *CapabilityToken, Presented.Len() * sizeof(TCHAR)) == 0;
++		}
++	}
++	return false;
++}
++
++bool FUltimateMCPServer::RejectUnauthorized(const FHttpServerRequest& Request, const FHttpResultCallback& OnComplete) const
++{
++	if (IsAuthorized(Request)) return false;
++	TSharedPtr<FJsonObject> Error = MakeShared<FJsonObject>();
++	Error->SetBoolField(TEXT("success"), false);
++	Error->SetStringField(TEXT("error"), TEXT("capability token missing or invalid"));
++	SendJsonResponse(OnComplete, 401, Error);
++	return true;
++}
+diff --git a/Source/UE5UltimateMCP/Private/UltimateMCPSubsystem.cpp b/Source/UE5UltimateMCP/Private/UltimateMCPSubsystem.cpp
+index 5555555..6666666 100644
+--- a/Source/UE5UltimateMCP/Private/UltimateMCPSubsystem.cpp
++++ b/Source/UE5UltimateMCP/Private/UltimateMCPSubsystem.cpp
+@@ -75,4 +75,11 @@ void UUltimateMCPSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+ 	// Start the HTTP server
+ 	Server = MakeUnique<FUltimateMCPServer>();
+-	if (Server->Start(9847))
++	int32 Port = 9847;
++	FParse::Value(FCommandLine::Get(), TEXT("UltimateMCPPort="), Port);
++	if (Port < 1024 || Port > 65535)
++	{
++		UE_LOG(LogTemp, Error, TEXT("[UltimateMCP] Refusing invalid port %d"), Port);
++		return;
++	}
++	if (Server->Start(Port))
+ 	{

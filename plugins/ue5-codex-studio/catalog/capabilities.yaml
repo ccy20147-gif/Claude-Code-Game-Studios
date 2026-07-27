@@ -2,9 +2,9 @@ schema_version: 1
 statuses: [DIRECT, SCRIPT_FALLBACK, THIN_MCP_EXTENSION, MANUAL_REQUIRED, UNSUPPORTED]
 capabilities:
   - {id: narrative.trace_change, mutability: WRITE, status: DIRECT, backend: studio, evidence: OBSERVED}
-  - {id: ue.asset.read, mutability: READ, status: THIN_MCP_EXTENSION, backend: unreal-mcp, evidence: OBSERVED}
-  - {id: ue.actor.create, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: unreal-mcp, evidence: PERSISTED}
-  - {id: ue.blueprint.edit, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: unreal-mcp, evidence: PERSISTED}
+  - {id: ue.asset.read, mutability: READ, status: THIN_MCP_EXTENSION, backend: ue5ultimatemcp-controlled, evidence: OBSERVED}
+  - {id: ue.actor.create, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: ue5ultimatemcp-controlled, evidence: PERSISTED}
+  - {id: ue.blueprint.edit, mutability: WRITE, status: UNSUPPORTED, backend: none, evidence: PERSISTED}
   - {id: ue.automation.run, mutability: EXECUTE, status: SCRIPT_FALLBACK, backend: ue-commandlet, evidence: RUNTIME}
   - {id: ue.package.build, mutability: EXECUTE, status: SCRIPT_FALLBACK, backend: uat, evidence: RUNTIME}
   - {id: ue.paper2d.author, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: ue-script, evidence: PERSISTED}
