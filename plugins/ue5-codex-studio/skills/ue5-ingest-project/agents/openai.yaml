@@ -1,4 +1,4 @@
 interface:
   display_name: "Ingest UE5 Project"
-  short_description: "Assess existing design files, source code, or UE5 projects."
-  default_prompt: "Use -ingest-project for my UE5 project."
+  short_description: "Import existing UE5 games and external design sources."
+  default_prompt: "Use $ue5-ingest-project for my UE5 project or design pack."

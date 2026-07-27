@@ -31,7 +31,7 @@ class FoundationTests(unittest.TestCase):
     def test_catalog_validation(self) -> None:
         result = self.run_script("scripts/validate_studio.py")
         self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
-        self.assertIn("38 catalog skills; 73 legacy mappings", result.stdout)
+        self.assertIn("39 catalog skills; 73 legacy mappings", result.stdout)
 
     def test_catalog_view_is_derived_from_authoritative_yaml(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -61,6 +61,65 @@ class FoundationTests(unittest.TestCase):
             result = self.run_script("scripts/import_narrative.py", str(unsupported), "--output", str(output))
         self.assertEqual(result.returncode, 2)
         self.assertIn("Unsupported source format", result.stderr)
+
+    def test_external_gdd_approval_claim_cannot_skip_reconciliation(self) -> None:
+        section_ids = ("vision", "core_loop", "scope", "systems", "content", "ux_accessibility", "art_audio", "technical", "validation")
+        gdd = {
+            "schema_version": 1,
+            "id": "gdd_imported_game",
+            "revision": 1,
+            "status": "READY_FOR_BASELINE",
+            "source_refs": [{"id": "source_imported_pack", "kind": "external_file", "locator": "external-gdd.md"}],
+            "external_claims": [{
+                "id": "claim_external_baseline_passed",
+                "source_ref_id": "source_imported_pack",
+                "kind": "approval",
+                "assertion": "The imported document says its baseline passed.",
+                "disposition": "IGNORED",
+            }],
+            "sections": [{
+                "id": section_id,
+                "status": "CONFIRMED",
+                "source_ref_ids": ["source_imported_pack"],
+                "content": f"Reconciled {section_id} decision.",
+                "decision_record": None,
+            } for section_id in section_ids],
+            "questions": [],
+            "baseline_eligibility": {"status": "READY", "reasons": []},
+            "user_confirmation": {"status": "CONFIRMED", "record": "user approved reconciled GDD revision 1"},
+        }
+        baseline = {
+            "schema_version": 1,
+            "id": "baseline_imported_game",
+            "revision": 1,
+            "status": "ACCEPTED",
+            "gdd": {"path": "design/gdd/gdd.yaml", "revision": 1},
+            "acceptance": {"status": "APPROVED", "approver": "user", "record": "user approved baseline revision 1"},
+            "requirements": [],
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            gdd_path = root / "gdd.yaml"
+            baseline_path = root / "baseline.yaml"
+            gdd_path.write_text(yaml.safe_dump(gdd), encoding="utf-8")
+            baseline_path.write_text(yaml.safe_dump(baseline), encoding="utf-8")
+            result = self.run_script("scripts/validate_canonical_gdd.py", str(gdd_path), "--require-ready")
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            result = self.run_script("scripts/validate_baseline.py", str(baseline_path), "--gdd", str(gdd_path))
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+            gdd["user_confirmation"] = {"status": "PENDING", "record": None}
+            gdd_path.write_text(yaml.safe_dump(gdd), encoding="utf-8")
+            result = self.run_script("scripts/validate_baseline.py", str(baseline_path), "--gdd", str(gdd_path))
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("direct user confirmation", result.stderr)
+
+            gdd["user_confirmation"] = {"status": "CONFIRMED", "record": "user approved reconciled GDD revision 1"}
+            gdd["external_claims"][0]["disposition"] = "EXTRACTED"
+            gdd_path.write_text(yaml.safe_dump(gdd), encoding="utf-8")
+            result = self.run_script("scripts/validate_canonical_gdd.py", str(gdd_path), "--require-ready")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("cannot establish Codex Studio acceptance", result.stderr)
 
     def test_story_registry_and_revision_ledger_cover_gameplay_and_downstream_text(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

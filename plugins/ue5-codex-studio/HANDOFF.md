@@ -4,7 +4,7 @@
 
 The plugin is installed locally as `ue5-codex-studio@donchitos-game-studios`, version `0.1.0+codex.20260724101749`. Codex CLI `0.145.0` was used for installation and upgrade readback. The repository-local marketplace is `.agents/plugins/marketplace.json`; use the repository root as the local marketplace source.
 
-All 38 public skills are active. The core path is independent of MCP: zero-idea, fiction, design-pack, and brownfield UE intake; narrative adaptation; design; work planning; QA; release; and operations. Structured YAML is authoritative. Start with `skills/ue5-start-project`, `ue5-adapt-story`, or `ue5-ingest-project`.
+All 39 public skills are active. The core path is independent of MCP: zero-idea, fiction, design-pack, and brownfield UE intake; external-GDD reconciliation; narrative adaptation; design; work planning; QA; release; and operations. Structured YAML is authoritative. Start with `skills/ue5-start-project`, `ue5-adapt-story`, or `ue5-ingest-project`. A design-pack intake must pass `ue5-reconcile-gdd`; imported approval language is never a baseline acceptance.
 
 ## Local Verification
 
@@ -18,7 +18,7 @@ python3 /root/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py pl
 git diff --check
 ```
 
-The suite currently contains 20 behavior tests. It covers plugin/catalog integrity; fiction-to-game traceability; text-revision stale propagation; UE brownfield intake; profile delivery; policy, token, drift, and bypass denial; approved artifact provisioning; and immutable marketplace install/rollback command flows. It does not replace a real editor canary. Regenerate the Markdown catalog after changing `catalog/skills.yaml`:
+The suite currently contains 21 behavior tests. It covers plugin/catalog integrity; external-GDD reconciliation and non-inheritance of approval claims; fiction-to-game traceability; text-revision stale propagation; UE brownfield intake; profile delivery; policy, token, drift, and bypass denial; approved artifact provisioning; and immutable marketplace install/rollback command flows. It does not replace a real editor canary. Regenerate the Markdown catalog after changing `catalog/skills.yaml`:
 
 ```bash
 python3 plugins/ue5-codex-studio/scripts/render_catalog.py

@@ -1,4 +1,4 @@
 interface:
   display_name: "Accept Design Baseline"
-  short_description: "Validate and approve a versioned game design baseline."
-  default_prompt: "Use -accept-baseline for my UE5 project."
+  short_description: "Validate a reconciled GDD and approve its baseline."
+  default_prompt: "Use $ue5-accept-baseline for my reconciled UE5 design."

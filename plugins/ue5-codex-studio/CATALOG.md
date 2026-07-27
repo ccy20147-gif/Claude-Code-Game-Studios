@@ -7,6 +7,7 @@ Generated from `catalog/skills.yaml`; do not edit this view manually.
 | `$ue5-start-project` | `active` | `project_profile` |
 | `$ue5-setup-toolchain` | `active` | `toolchain_lock` |
 | `$ue5-ingest-project` | `active` | `intake_bundle` |
+| `$ue5-reconcile-gdd` | `active` | `canonical_gdd` |
 | `$ue5-conceive-game` | `active` | `concept_candidates` |
 | `$ue5-adapt-story` | `active` | `narrative_registry` |
 | `$ue5-map-systems` | `active` | `system_map` |

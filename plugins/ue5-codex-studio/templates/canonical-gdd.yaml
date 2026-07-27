@@ -1,0 +1,23 @@
+schema_version: 1
+id: gdd_game
+revision: 1
+status: DRAFT
+source_refs: []
+external_claims: []
+sections:
+  - {id: vision, status: DRAFT, source_ref_ids: [], content: null, decision_record: null}
+  - {id: core_loop, status: DRAFT, source_ref_ids: [], content: null, decision_record: null}
+  - {id: scope, status: DRAFT, source_ref_ids: [], content: null, decision_record: null}
+  - {id: systems, status: DRAFT, source_ref_ids: [], content: null, decision_record: null}
+  - {id: content, status: DRAFT, source_ref_ids: [], content: null, decision_record: null}
+  - {id: ux_accessibility, status: DRAFT, source_ref_ids: [], content: null, decision_record: null}
+  - {id: art_audio, status: DRAFT, source_ref_ids: [], content: null, decision_record: null}
+  - {id: technical, status: DRAFT, source_ref_ids: [], content: null, decision_record: null}
+  - {id: validation, status: DRAFT, source_ref_ids: [], content: null, decision_record: null}
+questions: []
+baseline_eligibility:
+  status: BLOCKED
+  reasons: ["Complete GDD reconciliation and direct user confirmation."]
+user_confirmation:
+  status: PENDING
+  record: null

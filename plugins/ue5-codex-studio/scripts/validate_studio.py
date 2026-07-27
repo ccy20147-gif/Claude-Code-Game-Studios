@@ -51,6 +51,9 @@ def main() -> int:
         "scripts/manage_marketplace_release.py",
         "scripts/validate_narrative_registry.py",
         "scripts/validate_change_ledger.py",
+        "scripts/validate_canonical_gdd.py",
+        "scripts/validate_baseline.py",
+        "templates/canonical-gdd.yaml",
     )
     for relative in required_files:
         if not (ROOT / relative).is_file():
@@ -63,8 +66,8 @@ def main() -> int:
 
     catalog = load_yaml(ROOT / "catalog/skills.yaml")
     skills = catalog.get("skills")
-    if not isinstance(skills, list) or len(skills) != 38:
-        fail("skills catalog must contain exactly 38 public skills")
+    if not isinstance(skills, list) or len(skills) != 39:
+        fail("skills catalog must contain exactly 39 public skills")
     names = [entry.get("name") for entry in skills]
     if len(names) != len(set(names)) or any(not re.fullmatch(r"ue5-[a-z0-9-]+", name or "") for name in names):
         fail("skill names must be unique ue5-prefixed kebab case")

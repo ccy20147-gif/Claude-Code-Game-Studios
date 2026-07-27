@@ -4,6 +4,7 @@ skills:
   - {name: ue5-start-project, status: active, owner: project_profile, artifacts: [.ue5-codex-studio/project.yaml], legacy: [start, help, project-stage-detect, onboard]}
   - {name: ue5-setup-toolchain, status: active, owner: toolchain_lock, artifacts: [.ue5-codex-studio/toolchain-lock.yaml], legacy: [setup-engine]}
   - {name: ue5-ingest-project, status: active, owner: intake_bundle, artifacts: [intake/source-manifest.yaml, intake/intake-bundle.yaml], legacy: [adopt, reverse-document]}
+  - {name: ue5-reconcile-gdd, status: active, owner: canonical_gdd, artifacts: [intake/gdd-reconciliation.yaml, design/gdd/gdd.yaml], legacy: []}
   - {name: ue5-conceive-game, status: active, owner: concept_candidates, artifacts: [design/concept-options.yaml], legacy: [brainstorm]}
   - {name: ue5-adapt-story, status: active, owner: narrative_registry, artifacts: [intake/source-manifest.yaml, design/narrative-registry.yaml], legacy: []}
   - {name: ue5-map-systems, status: active, owner: system_map, artifacts: [design/system-map.yaml], legacy: [map-systems]}

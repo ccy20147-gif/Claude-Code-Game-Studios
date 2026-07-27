@@ -1,4 +1,4 @@
 interface:
   display_name: "Start UE5 Project"
   short_description: "Route a UE5 game project into the right workflow."
-  default_prompt: "Use -start-project for my UE5 project."
+  default_prompt: "Use $ue5-start-project to route my UE5 project."

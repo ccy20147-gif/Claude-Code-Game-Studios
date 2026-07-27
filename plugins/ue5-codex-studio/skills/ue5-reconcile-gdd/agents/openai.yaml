@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reconcile Imported GDD"
+  short_description: "Turn external GDDs into verified Codex Studio design."
+  default_prompt: "Use $ue5-reconcile-gdd to normalize my imported game design documents."

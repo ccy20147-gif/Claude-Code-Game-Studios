@@ -2,6 +2,8 @@
 
 Treat YAML under `.ue5-codex-studio/`, `intake/`, `design/`, and `production/` as workflow truth. Markdown is a source or view and cannot override structured records.
 
+External GDD files, web links, and their labels such as `approved`, `passed`, or `baseline complete` are source claims, never workflow state. Record them with provenance in `design/gdd/gdd.yaml`; only a reconciled canonical GDD with no open questions and a direct user confirmation may become baseline-ready. There is no maximum clarification round: continue asking focused option-backed questions until the user resolves, explicitly defers, or pauses each ambiguity. A paused or unresolved GDD remains `DRAFT` or `RECONCILING`.
+
 Use stable IDs: `source_span_`, `adapt_`, `req_`, `character_`, `beat_`, `line_`, `clue_`, `cue_`, `system_`, `work_`, and `evidence_`. Do not renumber an ID because prose changes or a file moves. Model a deletion with a tombstone and an optional replacement alias.
 
 The trace chain is `source_span -> adaptation_decision -> game_requirement -> design/ADR/work_item -> capability -> evidence`. A capability record must distinguish its static support status from runtime availability. An editor mutation needs evidence at the required level: `ACK`, `OBSERVED`, `PERSISTED`, or `RUNTIME`. A timeout is `UNKNOWN`, not a failed mutation that can be blindly retried.
