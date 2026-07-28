@@ -1,0 +1,11 @@
+schema_version: 1
+id: blueprint_operation_example
+operation_id: operation_blueprint_example
+action: create_from_template
+capability_id: ue.blueprint.create_from_template
+target_asset: /Game/Blueprints/BP_Example
+status: BLOCKED
+subject_refs: [work_example]
+expected_readback: [asset_exists, blueprint_compiles, save_reload_matches]
+template_id: bp_template_actor
+approval_record: null

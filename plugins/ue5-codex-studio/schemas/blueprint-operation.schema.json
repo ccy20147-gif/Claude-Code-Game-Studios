@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "id", "operation_id", "action", "capability_id", "target_asset", "status", "subject_refs", "expected_readback"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^blueprint_operation_[a-z0-9_]+$"},
+    "operation_id": {"type": "string", "pattern": "^operation_[a-z0-9_]+$"},
+    "action": {"enum": ["create_from_template", "add_allowlisted_component", "set_allowlisted_variable", "apply_allowlisted_graph_patch", "compile", "save_reload_readback"]},
+    "capability_id": {"type": "string"},
+    "target_asset": {"type": "string", "pattern": "^/Game/[A-Za-z0-9_/]+$"},
+    "status": {"enum": ["DRAFT", "BLOCKED", "READY"]},
+    "subject_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "expected_readback": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "template_id": {"type": "string"},
+    "component_class": {"type": "string"},
+    "variable": {"type": "object", "required": ["name", "type"], "properties": {"name": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$"}, "type": {"type": "string"}}, "additionalProperties": false},
+    "graph_patch_id": {"type": "string"},
+    "approval_record": {"type": ["string", "null"], "pattern": "^approval_[a-z0-9_]+$"}
+  },
+  "additionalProperties": false
+}

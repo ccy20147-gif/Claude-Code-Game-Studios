@@ -1,0 +1,11 @@
+schema_version: 1
+id: dcc_operation_example
+operation_id: operation_dcc_example
+action: create_mesh
+capability_id: dcc.model.create_mesh
+effect: CREATE
+status: BLOCKED
+subject_refs: [work_example]
+target_path: dcc/source/example.blend
+expected_readback: [blend_reopens, export_exists, ue_import_observed]
+approval_record: null
