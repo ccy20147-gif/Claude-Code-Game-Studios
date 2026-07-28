@@ -33,6 +33,10 @@ class FoundationTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
         self.assertIn("39 catalog skills; 73 legacy mappings", result.stdout)
 
+    def test_current_codex_workflow_guide_has_no_archived_commands(self) -> None:
+        result = self.run_script("scripts/validate_current_docs.py")
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
     def test_catalog_view_is_derived_from_authoritative_yaml(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             generated = Path(temporary) / "CATALOG.md"
@@ -181,6 +185,19 @@ class FoundationTests(unittest.TestCase):
             result = self.run_script("scripts/validate_intake_bundle.py", str(bundle_path))
             self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
 
+    def test_intake_ignores_readme_and_allows_a_user_origin_override(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "Example.uproject").write_text("{}", encoding="utf-8")
+            (root / "README.md").write_text("Build notes", encoding="utf-8")
+            detected = self.run_script("scripts/inspect_project_intake.py", str(root))
+            self.assertEqual(detected.returncode, 0, detected.stderr + detected.stdout)
+            self.assertEqual(yaml.safe_load(detected.stdout)["intake"]["origin"], "implementation")
+            overridden = self.run_script("scripts/inspect_project_intake.py", str(root), "--origin", "hybrid")
+        bundle = yaml.safe_load(overridden.stdout)
+        self.assertEqual(bundle["intake"]["origin"], "hybrid")
+        self.assertEqual(bundle["intake"]["origin_source"], "user_override")
+
     def test_profile_delivery_fixtures_cover_supported_game_shapes(self) -> None:
         for fixture in ("narrative-adventure.yaml", "detective-mystery.yaml", "systemic-sandbox.yaml", "two-point-five-d.yaml"):
             result = self.run_script("scripts/validate_profile_delivery.py", f"tests/fixtures/{fixture}")
@@ -309,13 +326,15 @@ class FoundationTests(unittest.TestCase):
         self.assertIn("marketplace\" \"remove\" \"release\"", rollback.stdout)
 
     def test_mcp_evidence_requires_readback_and_blocks_unknown_retry(self) -> None:
-        successful = """id: evidence_asset_create
+        successful = """schema_version: 1
+id: evidence_asset_create
 operation_id: op_create
+subject_refs: [work_slice]
 level: PERSISTED
 result: PASS
 kind: mcp_mutation
 run_id: run_1
-capability_id: ue.actor.create
+capability_id: ue.canary.actor.create
 backend_version: 0.5.30
 resolved_tool: create_actor
 instance_id: ue_1
@@ -341,7 +360,7 @@ postcondition_probes: [actor_loadable, map_saved]
 
     def test_mcp_capability_operation_requires_safe_activation_conditions(self) -> None:
         blocked = """id: operation_actor_create
-capability_id: ue.actor.create
+capability_id: ue.canary.actor.create
 intent: create_actor
 execution_profile: local-editor
 status: READY
@@ -351,6 +370,7 @@ readback_required: true
         ready = blocked + """approval_record: approval_mcp_1
 server_policy_canary: PASS
 schema_drift_policy: fail_closed
+canary_scope: /Game/__CodexCanary_Map
 """
         with tempfile.TemporaryDirectory() as temporary:
             operation = Path(temporary) / "operation.yaml"
@@ -386,9 +406,99 @@ schema_drift_policy: fail_closed
 
     def test_ready_work_item_requires_traceability(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            item = Path(temporary) / "work.yaml"
-            item.write_text("id: work_slice\nbaseline_revision: 1\nstatus: READY\nrequirements: [req_loop]\ndeliverables: [Source/Game.cpp]\nacceptance_evidence: [evidence_runtime]\n", encoding="utf-8")
-            result = self.run_script("scripts/validate_work_item.py", str(item))
+            root = Path(temporary)
+            baseline_dir = root / "design"
+            baseline_dir.mkdir()
+            baseline = baseline_dir / "baseline.yaml"
+            baseline.write_text("schema_version: 2\nid: baseline_game\nrevision: 1\nstatus: ACCEPTED\ngdd: {path: design/gdd/gdd.yaml, id: gdd_game, revision: 1, sha256: " + "a" * 64 + "}\nacceptance: {status: APPROVED, approver: user, record: approved}\nrequirements: [req_loop]\nwaivers: []\n", encoding="utf-8")
+            item = root / "work.yaml"
+            item.write_text("schema_version: 2\nid: work_slice\ndiscipline: code\nwork_type: feature\nbaseline: {id: baseline_game, revision: 1, sha256: " + hashlib.sha256(baseline.read_bytes()).hexdigest() + "}\nstatus: READY\nrequirements: [req_loop]\ndeliverables: [Source/Game.cpp]\ndependencies: []\ncapabilities: [narrative.trace_change]\nacceptance_evidence: [evidence_runtime]\n", encoding="utf-8")
+            result = self.run_script("scripts/validate_work_item.py", str(item), "--project-root", str(root), "--require-ready")
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+
+    def test_strict_baseline_rejects_draft_and_gdd_hash_drift(self) -> None:
+        section_ids = ("vision", "core_loop", "scope", "systems", "content", "ux_accessibility", "art_audio", "technical", "validation")
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            project = root / ".ue5-codex-studio"
+            project.mkdir()
+            (project / "project.yaml").write_text((ROOT / "templates/project.yaml").read_text(encoding="utf-8").replace("project_game", "project_test"), encoding="utf-8")
+            design = root / "design"
+            design.mkdir()
+            gdd_path = design / "gdd.yaml"
+            gdd = {
+                "schema_version": 1, "id": "gdd_game", "revision": 1, "status": "READY_FOR_BASELINE",
+                "source_refs": [{"id": "source_concept", "kind": "concept", "locator": "design/concept-options.yaml"}], "external_claims": [],
+                "sections": [{"id": section_id, "status": "CONFIRMED", "source_ref_ids": ["source_concept"], "content": section_id, "decision_record": None} for section_id in section_ids],
+                "questions": [], "baseline_eligibility": {"status": "READY", "reasons": []}, "user_confirmation": {"status": "CONFIRMED", "record": "approved"},
+            }
+            gdd_path.write_text(yaml.safe_dump(gdd), encoding="utf-8")
+            baseline_path = design / "baseline.yaml"
+            baseline = {"schema_version": 2, "id": "baseline_game", "revision": 1, "status": "DRAFT", "gdd": {"path": "gdd.yaml", "id": "gdd_game", "revision": 1, "sha256": hashlib.sha256(gdd_path.read_bytes()).hexdigest()}, "acceptance": {"status": "PENDING", "approver": None, "record": None}, "requirements": [], "waivers": []}
+            baseline_path.write_text(yaml.safe_dump(baseline), encoding="utf-8")
+            result = self.run_script("scripts/validate_baseline.py", str(baseline_path), "--require-accepted")
+            self.assertEqual(result.returncode, 1)
+            baseline.update({"status": "ACCEPTED", "requirements": ["req_loop"], "acceptance": {"status": "APPROVED", "approver": "user", "record": "approved"}})
+            baseline_path.write_text(yaml.safe_dump(baseline), encoding="utf-8")
+            result = self.run_script("scripts/validate_baseline.py", str(baseline_path), "--require-accepted")
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            gdd_path.write_text(gdd_path.read_text(encoding="utf-8") + "# changed\n", encoding="utf-8")
+            result = self.run_script("scripts/validate_baseline.py", str(baseline_path), "--require-accepted")
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("hash", result.stderr)
+
+    def test_project_state_returns_a_single_required_next_action(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            project = Path(temporary) / "project.yaml"
+            project.write_text((ROOT / "templates/project.yaml").read_text(encoding="utf-8").replace("project_game", "project_resume"), encoding="utf-8")
+            result = self.run_script("scripts/inspect_workflow_state.py", str(project))
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(yaml.safe_load(result.stdout)["required_next"], "ue5-start-project")
+
+    def test_workflow_advance_requires_approval_and_records_transition(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            project = Path(temporary) / "project.yaml"
+            project.write_text((ROOT / "templates/project.yaml").read_text(encoding="utf-8").replace("project_game", "project_advance"), encoding="utf-8")
+            blocked = self.run_script("scripts/advance_workflow.py", str(project), "--phase", "concept", "--status", "IN_PROGRESS", "--active-skill", "ue5-conceive-game", "--reason", "selected new project")
+            self.assertEqual(blocked.returncode, 1)
+            advanced = self.run_script("scripts/advance_workflow.py", str(project), "--phase", "concept", "--status", "IN_PROGRESS", "--active-skill", "ue5-conceive-game", "--reason", "selected new project", "--approve")
+            self.assertEqual(advanced.returncode, 0, advanced.stderr + advanced.stdout)
+            state = yaml.safe_load(project.read_text(encoding="utf-8"))
+        self.assertEqual(state["workflow"]["phase"], "concept")
+        self.assertEqual(len(state["workflow"]["transitions"]), 1)
+
+    def test_plugin_install_check_reports_stale_without_mutation(self) -> None:
+        manifest = json.loads((ROOT / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as temporary:
+            fake_codex = Path(temporary) / "fake-codex"
+            fake_codex.write_text("#!/bin/sh\necho '" + json.dumps({"installed": [{"name": manifest["name"], "version": "0.0.0", "installed": True, "enabled": True}]}) + "'\n", encoding="utf-8")
+            fake_codex.chmod(0o755)
+            result = self.run_script("scripts/check_plugin_install.py", "--codex-bin", str(fake_codex))
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertEqual(json.loads(result.stdout)["status"], "STALE")
+
+    def test_release_gate_rejects_unready_and_accepts_complete_readiness(self) -> None:
+        required_gates = ("fresh_install", "smoke_regression", "save_compatibility", "performance", "security", "accessibility", "localization", "content_rights", "legal")
+        with tempfile.TemporaryDirectory() as temporary:
+            release_path = Path(temporary) / "release.yaml"
+            release = {
+                "schema_version": 1, "id": "release_game", "status": "DRAFT", "source_revision": None,
+                "baseline": {"id": None, "revision": None, "sha256": None}, "toolchain_sha256": None,
+                "targets": [], "gates": [], "known_issues": [], "rollback": {"artifact": None, "sha256": None}, "waivers": [],
+            }
+            release_path.write_text(yaml.safe_dump(release), encoding="utf-8")
+            result = self.run_script("scripts/validate_release.py", str(release_path), "--require-ready")
+            self.assertEqual(result.returncode, 1)
+            release.update({
+                "status": "READY_TO_RELEASE", "source_revision": "a" * 40,
+                "baseline": {"id": "baseline_game", "revision": 1, "sha256": "a" * 64},
+                "toolchain_sha256": "b" * 64,
+                "targets": [{"platform": "windows", "package_sha256": "c" * 64}],
+                "gates": [{"id": gate, "status": "PASS", "evidence": ["evidence_release"]} for gate in required_gates],
+                "rollback": {"artifact": "packages/previous.zip", "sha256": "d" * 64},
+            })
+            release_path.write_text(yaml.safe_dump(release), encoding="utf-8")
+            result = self.run_script("scripts/validate_release.py", str(release_path), "--require-ready")
         self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
 
     def test_default_deny_mcp_policy_rejects_direct_and_drifted_calls(self) -> None:

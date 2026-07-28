@@ -1,18 +1,21 @@
-schema_version: 1
+schema_version: 2
 statuses: [DIRECT, SCRIPT_FALLBACK, THIN_MCP_EXTENSION, MANUAL_REQUIRED, UNSUPPORTED]
+availability: [AVAILABLE, CANARY_ONLY, BLOCKED, MANUAL, UNSUPPORTED]
 capabilities:
-  - {id: narrative.trace_change, mutability: WRITE, status: DIRECT, backend: studio, evidence: OBSERVED}
-  - {id: ue.asset.read, mutability: READ, status: THIN_MCP_EXTENSION, backend: ue5ultimatemcp-controlled, evidence: OBSERVED}
-  - {id: ue.actor.create, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: ue5ultimatemcp-controlled, evidence: PERSISTED}
-  - {id: ue.blueprint.edit, mutability: WRITE, status: UNSUPPORTED, backend: none, evidence: PERSISTED}
-  - {id: ue.automation.run, mutability: EXECUTE, status: SCRIPT_FALLBACK, backend: ue-commandlet, evidence: RUNTIME}
-  - {id: ue.package.build, mutability: EXECUTE, status: SCRIPT_FALLBACK, backend: uat, evidence: RUNTIME}
-  - {id: ue.paper2d.author, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: ue-script, evidence: PERSISTED}
-  - {id: ue.mass.spawn, mutability: WRITE, status: UNSUPPORTED, backend: none, evidence: RUNTIME}
-  - {id: blender.discovery, mutability: READ, status: DIRECT, backend: blender-mcp, evidence: OBSERVED}
-  - {id: blender.asset.author, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: blender-mcp, evidence: PERSISTED}
-  - {id: cloud.asset.concept.create, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: atlascloud-controlled, evidence: OBSERVED}
-  - {id: cloud.asset.concept.modify, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: atlascloud-controlled, evidence: OBSERVED}
-  - {id: cloud.asset.mesh.create, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: atlascloud-controlled, evidence: OBSERVED}
-  - {id: audio.music_production, mutability: WRITE, status: MANUAL_REQUIRED, backend: provider-neutral, evidence: RUNTIME}
-  - {id: audio.voice_production, mutability: WRITE, status: MANUAL_REQUIRED, backend: provider-neutral, evidence: RUNTIME}
+  - {id: narrative.trace_change, mutability: WRITE, status: DIRECT, availability: AVAILABLE, backend: studio, evidence: OBSERVED, scope: trace_records, executor: built_in, fallback: manual_yaml}
+  - {id: ue.level.read, mutability: READ, status: THIN_MCP_EXTENSION, availability: CANARY_ONLY, backend: ue5ultimatemcp-controlled, evidence: OBSERVED, scope: canary_and_read_only, executor: controlled_adapter, fallback: editor_manual}
+  - {id: ue.actor.read, mutability: READ, status: THIN_MCP_EXTENSION, availability: CANARY_ONLY, backend: ue5ultimatemcp-controlled, evidence: OBSERVED, scope: canary_and_read_only, executor: controlled_adapter, fallback: editor_manual}
+  - {id: ue.viewport.capture, mutability: READ, status: THIN_MCP_EXTENSION, availability: CANARY_ONLY, backend: ue5ultimatemcp-controlled, evidence: OBSERVED, scope: canary_and_read_only, executor: controlled_adapter, fallback: editor_manual}
+  - {id: ue.canary.actor.create, mutability: WRITE, status: THIN_MCP_EXTENSION, availability: CANARY_ONLY, backend: ue5ultimatemcp-controlled, evidence: PERSISTED, scope: dedicated_canary_map_only, executor: controlled_adapter, fallback: editor_manual}
+  - {id: ue.blueprint.edit, mutability: WRITE, status: UNSUPPORTED, availability: UNSUPPORTED, backend: none, evidence: PERSISTED, scope: none, executor: null, fallback: editor_manual}
+  - {id: ue.automation.run, mutability: EXECUTE, status: UNSUPPORTED, availability: UNSUPPORTED, backend: none, evidence: RUNTIME, scope: none, executor: null, fallback: editor_manual}
+  - {id: ue.package.build, mutability: EXECUTE, status: UNSUPPORTED, availability: UNSUPPORTED, backend: none, evidence: RUNTIME, scope: none, executor: null, fallback: manual_uat}
+  - {id: ue.paper2d.author, mutability: WRITE, status: UNSUPPORTED, availability: UNSUPPORTED, backend: none, evidence: PERSISTED, scope: none, executor: null, fallback: editor_manual}
+  - {id: ue.mass.spawn, mutability: WRITE, status: UNSUPPORTED, availability: UNSUPPORTED, backend: none, evidence: RUNTIME, scope: none, executor: null, fallback: editor_manual}
+  - {id: blender.discovery, mutability: READ, status: DIRECT, availability: BLOCKED, backend: blender-mcp, evidence: OBSERVED, scope: discovery, executor: gateway_pending_canary, fallback: blender_manual}
+  - {id: blender.asset.author, mutability: WRITE, status: THIN_MCP_EXTENSION, availability: BLOCKED, backend: blender-mcp, evidence: PERSISTED, scope: new_assets_only, executor: gateway_pending_canary, fallback: blender_manual}
+  - {id: cloud.asset.concept.create, mutability: WRITE, status: THIN_MCP_EXTENSION, availability: BLOCKED, backend: atlascloud-controlled, evidence: OBSERVED, scope: new_candidates, executor: approval_gated_adapter, fallback: manual_provider}
+  - {id: cloud.asset.concept.modify, mutability: WRITE, status: THIN_MCP_EXTENSION, availability: BLOCKED, backend: atlascloud-controlled, evidence: OBSERVED, scope: registered_assets_with_approval, executor: approval_gated_adapter, fallback: manual_provider}
+  - {id: cloud.asset.mesh.create, mutability: WRITE, status: THIN_MCP_EXTENSION, availability: BLOCKED, backend: atlascloud-controlled, evidence: OBSERVED, scope: new_candidates, executor: approval_gated_adapter, fallback: manual_provider}
+  - {id: audio.music_production, mutability: WRITE, status: MANUAL_REQUIRED, availability: MANUAL, backend: provider-neutral, evidence: RUNTIME, scope: music, executor: null, fallback: manual_provider}
+  - {id: audio.voice_production, mutability: WRITE, status: MANUAL_REQUIRED, availability: MANUAL, backend: provider-neutral, evidence: RUNTIME, scope: voice, executor: null, fallback: manual_provider}

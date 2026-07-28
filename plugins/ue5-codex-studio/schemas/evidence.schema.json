@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["schema_version", "id", "operation_id", "level", "result"],
+  "required": ["schema_version", "id", "operation_id", "level", "result", "kind", "subject_refs"],
   "properties": {
     "schema_version": {"const": 1},
     "id": {"type": "string", "pattern": "^evidence_[a-z0-9_]+$"},
@@ -9,6 +9,7 @@
     "level": {"enum": ["ACK", "OBSERVED", "PERSISTED", "RUNTIME"]},
     "result": {"enum": ["PASS", "FAIL", "UNKNOWN", "PENDING_LOCAL_VALIDATION"]},
     "kind": {"enum": ["test", "review", "runtime", "mcp_mutation", "cloud_generation"]},
+    "subject_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
     "state": {"enum": ["SUCCEEDED", "FAILED", "UNKNOWN", "SKIPPED"]},
     "execution_profile": {"enum": ["local-editor", "cloud", "offline"]}
   },

@@ -1,6 +1,6 @@
 # State Contract
 
-Treat YAML under `.ue5-codex-studio/`, `intake/`, `design/`, and `production/` as workflow truth. Markdown is a source or view and cannot override structured records.
+Treat YAML under `.ue5-codex-studio/`, `intake/`, `design/`, and `production/` as workflow truth. Markdown is a source or view and cannot override structured records. New projects use schema version 2 `.ue5-codex-studio/project.yaml`; it records resumable workflow state, while the next action is derived by `inspect_workflow_state.py`. Version 1 workflow state is read-only and must not be advanced or silently migrated.
 
 External GDD files, web links, and their labels such as `approved`, `passed`, or `baseline complete` are source claims, never workflow state. Record them with provenance in `design/gdd/gdd.yaml`; only a reconciled canonical GDD with no open questions and a direct user confirmation may become baseline-ready. There is no maximum clarification round: continue asking focused option-backed questions until the user resolves, explicitly defers, or pauses each ambiguity. A paused or unresolved GDD remains `DRAFT` or `RECONCILING`.
 

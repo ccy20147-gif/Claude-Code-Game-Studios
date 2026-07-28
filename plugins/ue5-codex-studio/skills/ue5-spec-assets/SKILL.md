@@ -5,7 +5,7 @@ description: Convert approved UE5 art, level, narrative, and audio requirements 
 
 # Specify Assets
 
-Read the art bible, level specs, and baseline. Assign stable `asset_id` values and define source requirement, owner, format, license/provenance, platform budget, import settings, scale/pivot/axis, LOD/collision, naming, reimport behavior, and acceptance evidence.
+Read the art bible, level specs, baseline, and canonical `assets/asset-registry.yaml`. Assign stable `asset_id` values and define source requirement, owner, format, license/provenance, platform budget, import settings, scale/pivot/axis, LOD/collision, naming, reimport behavior, and acceptance evidence. Treat a discovered legacy `assets/asset-manifest.yaml` as read-only input, never as a new authoritative write target.
 
 For audio, preserve `line_id` and `cue_id` links rather than encoding semantics in filenames. For 2D assets, declare pixels-per-unit, filter/compression, atlas, pivot, collision, and tile seam constraints. Consult `../../catalog/capabilities.yaml`; an import or editor write may still be manual or require a thin MCP extension.
 

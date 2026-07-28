@@ -1,15 +1,41 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["schema_version", "lifecycle", "mode", "review", "profiles", "authority_map"],
+  "required": ["schema_version", "id", "lifecycle", "mode", "review", "profiles", "authority_map", "assumptions", "workflow", "artifact_refs"],
   "properties": {
-    "schema_version": {"const": 1},
+    "schema_version": {"const": 2},
+    "id": {"type": "string", "pattern": "^project_[a-z0-9_]+$"},
     "lifecycle": {"enum": ["concept", "systems", "architecture", "preproduction", "production", "polish", "release", "live"]},
     "mode": {"enum": ["standard", "prototype", "maintenance", "hotfix"]},
     "review": {"enum": ["adaptive", "full", "lean", "solo"]},
-    "profiles": {"type": "object", "required": ["experience", "presentation", "investigation", "runtime", "operations"]},
+    "profiles": {
+      "type": "object",
+      "required": ["experience", "presentation", "investigation", "runtime", "operations"],
+      "properties": {
+        "experience": {"enum": ["unknown", "linear", "systemic", "hybrid"]},
+        "presentation": {"enum": ["unknown", "2d", "2.5d", "3d"]},
+        "investigation": {"enum": ["unknown", "none", "clue-graph", "spatial"]},
+        "runtime": {"enum": ["unknown", "single", "multiplayer"]},
+        "operations": {"type": "object"}
+      }
+    },
     "authority_map": {"type": "object"},
-    "shipping_targets": {"type": "array", "items": {"enum": ["windows", "linux"]}}
+    "shipping_targets": {"type": "array", "items": {"enum": ["windows", "linux"]}},
+    "assumptions": {"type": "array"},
+    "artifact_refs": {"type": "object"},
+    "workflow": {
+      "type": "object",
+      "required": ["phase", "status", "active_skill", "active_work_item", "blockers", "pending_decisions", "transitions"],
+      "properties": {
+        "phase": {"enum": ["intake", "concept", "gdd", "baseline", "systems", "production", "release"]},
+        "status": {"enum": ["READY", "IN_PROGRESS", "AWAITING_USER", "BLOCKED", "COMPLETE"]},
+        "active_skill": {"type": ["string", "null"]},
+        "active_work_item": {"type": ["string", "null"]},
+        "blockers": {"type": "array"},
+        "pending_decisions": {"type": "array"},
+        "transitions": {"type": "array"}
+      }
+    }
   },
   "additionalProperties": true
 }

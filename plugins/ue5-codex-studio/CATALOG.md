@@ -23,7 +23,7 @@ Generated from `catalog/skills.yaml`; do not edit this view manually.
 | `$ue5-design-architecture` | `active` | `architecture` |
 | `$ue5-plan-simulation` | `active` | `simulation_contract` |
 | `$ue5-plan-persistence` | `active` | `save_contract` |
-| `$ue5-spec-assets` | `active` | `asset_manifest` |
+| `$ue5-spec-assets` | `active` | `asset_registry` |
 | `$ue5-run-prototype` | `active` | `prototype_report` |
 | `$ue5-build-slice` | `active` | `slice_report` |
 | `$ue5-plan-work` | `active` | `work_plan` |

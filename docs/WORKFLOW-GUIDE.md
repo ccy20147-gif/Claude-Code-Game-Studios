@@ -1,4 +1,6 @@
-# Claude Code Game Studios -- Complete Workflow Guide
+# Archived Claude Code Workflow Guide
+
+> **Legacy reference only.** This document describes the previous Claude Code slash-command and `production/stage.txt` system. Do not use it to operate the current Codex plugins. For UE5, use [UE5 Codex Studio Workflow](UE5-CODEX-WORKFLOW.md).
 
 > **How to go from zero to a shipped game using the Agent Architecture.**
 >

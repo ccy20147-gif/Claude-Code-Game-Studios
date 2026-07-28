@@ -14,7 +14,10 @@ import yaml
 UE_DIRECTORIES = ("Source", "Content", "Config", "Plugins")
 UE_BINARY_SUFFIXES = {".uasset", ".umap", ".ubulk", ".uexp"}
 FICTION_SUFFIXES = {".txt", ".fountain", ".fdx"}
-DESIGN_SUFFIXES = {".yaml", ".yml", ".json", ".md", ".pdf", ".docx"}
+DESIGN_SUFFIXES = {".yaml", ".yml", ".json"}
+FICTION_HINTS = {"story", "novel", "script", "screenplay", "narrative", "fiction"}
+DESIGN_HINTS = {"gdd", "design", "game-design", "game_design"}
+NON_DESIGN_NAMES = {"readme", "license", "copying", "changelog", "contributing"}
 IGNORED_DIRECTORIES = {".git", ".ue5-codex-studio", "Binaries", "DerivedDataCache", "Intermediate", "Saved"}
 
 
@@ -26,9 +29,24 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _path_words(path: str) -> set[str]:
+    normalized = path.lower().replace("_", "-").replace(".", "-").replace("/", "-")
+    return {word for word in normalized.split("-") if word}
+
+
 def classify(files: list[dict[str, object]], has_ue: bool) -> str:
-    has_fiction = any(item["suffix"] in FICTION_SUFFIXES for item in files)
-    has_design = any(item["suffix"] in DESIGN_SUFFIXES for item in files)
+    has_fiction = False
+    has_design = False
+    for item in files:
+        suffix = str(item["suffix"])
+        path = str(item["path"])
+        words = _path_words(path)
+        stem = Path(path).stem.lower()
+        if suffix in FICTION_SUFFIXES or (suffix in {".md", ".docx", ".pdf"} and words & FICTION_HINTS):
+            has_fiction = True
+        if suffix in DESIGN_SUFFIXES or (suffix in {".md", ".docx", ".pdf"} and words & DESIGN_HINTS):
+            if stem not in NON_DESIGN_NAMES:
+                has_design = True
     categories = sum((has_ue, has_fiction, has_design))
     if categories == 0:
         return "zero"
@@ -43,6 +61,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path)
     parser.add_argument("--output", type=Path, help="Write an intake bundle only to this explicit output path.")
+    parser.add_argument("--origin", choices=["zero", "source_fiction", "design_pack", "implementation", "hybrid"], help="Record a user-confirmed classification override.")
     args = parser.parse_args()
     root = args.root.resolve()
     if not root.is_dir():
@@ -68,12 +87,15 @@ def main() -> int:
     has_ue = bool(project_files) or any(ue_directories.values())
     binary_unknown = [item["path"] for item in files if item["kind"] == "binary_unknown"]
     suffix_counts = dict(sorted(Counter(str(item["suffix"]) for item in files).items()))
-    origin = classify(files, has_ue)
+    detected_origin = classify(files, has_ue)
+    origin = args.origin or detected_origin
     bundle = {
         "schema_version": 1,
         "intake": {
             "root": str(root),
             "origin": origin,
+            "detected_origin": detected_origin,
+            "origin_source": "user_override" if args.origin else "classifier",
             "read_only": True,
             "file_count": len(files),
             "files": files,

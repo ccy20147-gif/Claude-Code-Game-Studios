@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "id", "status", "source_revision", "baseline", "toolchain_sha256", "targets", "gates", "known_issues", "rollback", "waivers"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^release_[a-z0-9_]+$"},
+    "status": {"enum": ["DRAFT", "BLOCKED", "READY_TO_RELEASE"]},
+    "source_revision": {"type": ["string", "null"]},
+    "baseline": {"type": "object", "required": ["id", "revision", "sha256"]},
+    "toolchain_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "targets": {"type": "array", "items": {"type": "object", "required": ["platform", "package_sha256"]}},
+    "gates": {"type": "array", "items": {"type": "object", "required": ["id", "status", "evidence"]}},
+    "known_issues": {"type": "array"},
+    "rollback": {"type": "object", "required": ["artifact", "sha256"]},
+    "waivers": {"type": "array"}
+  }
+}

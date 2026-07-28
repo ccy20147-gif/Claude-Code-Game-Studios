@@ -1,8 +1,11 @@
-schema_version: 1
+schema_version: 2
 id: work_example
 discipline: code
 work_type: feature
-baseline_revision: 1
+baseline:
+  id: baseline_game
+  revision: 1
+  sha256: null
 requirements: []
 deliverables: []
 dependencies: []

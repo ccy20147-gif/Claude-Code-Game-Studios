@@ -69,7 +69,18 @@ def main() -> int:
         "scripts/validate_baseline.py",
         "templates/canonical-gdd.yaml",
         "templates/asset-registry.yaml",
+        "templates/profile-delivery.yaml",
+        "templates/release.yaml",
         "templates/dcc-modeling-policy.yaml",
+        "schemas/profile-delivery.schema.json",
+        "schemas/release.schema.json",
+        "scripts/schema_validation.py",
+        "scripts/validate_project.py",
+        "scripts/validate_release.py",
+        "scripts/inspect_workflow_state.py",
+        "scripts/advance_workflow.py",
+        "scripts/check_plugin_install.py",
+        "scripts/validate_current_docs.py",
         "integrations/blender-mcp/gateway-manifest.yaml",
         "integrations/atlascloud/model-lock.yaml",
         "integrations/atlascloud/policy.json",
@@ -124,12 +135,19 @@ def main() -> int:
             fail(f"invalid JSON schema {schema.name}: {error}")
     capabilities = load_yaml(ROOT / "catalog/capabilities.yaml")
     allowed_statuses = set(capabilities.get("statuses", []))
+    allowed_availability = set(capabilities.get("availability", []))
     capability_entries = capabilities.get("capabilities", [])
     capability_ids = [entry.get("id") for entry in capability_entries]
     if len(capability_ids) != len(set(capability_ids)):
         fail("capability IDs must be unique")
     if any(entry.get("status") not in allowed_statuses for entry in capability_entries):
         fail("capability has an invalid support status")
+    if any(entry.get("availability") not in allowed_availability for entry in capability_entries):
+        fail("capability has an invalid runtime availability")
+    if any(not entry.get("scope") or "executor" not in entry or not entry.get("fallback") for entry in capability_entries):
+        fail("capability must declare scope, executor, and fallback")
+    if any(entry.get("status") == "SCRIPT_FALLBACK" and not entry.get("executor") for entry in capability_entries):
+        fail("script fallback capability must declare an executor")
     print(f"PASS: {ROOT.name}; {len(names)} catalog skills; {len(legacy_names)} legacy mappings")
     return 0
 

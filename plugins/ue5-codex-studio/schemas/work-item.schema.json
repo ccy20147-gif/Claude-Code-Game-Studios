@@ -1,13 +1,24 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["schema_version", "id", "discipline", "work_type", "baseline_revision", "status"],
+  "required": ["schema_version", "id", "discipline", "work_type", "baseline", "requirements", "deliverables", "dependencies", "capabilities", "acceptance_evidence", "status"],
   "properties": {
-    "schema_version": {"const": 1},
+    "schema_version": {"const": 2},
     "id": {"type": "string", "pattern": "^work_[a-z0-9_]+$"},
     "discipline": {"enum": ["design", "code", "art", "audio", "narrative", "qa", "production", "release"]},
     "work_type": {"type": "string"},
-    "baseline_revision": {"type": "integer", "minimum": 1},
+    "baseline": {
+      "type": "object",
+      "required": ["id", "revision", "sha256"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^baseline_[a-z0-9_]+$"},
+        "revision": {"type": "integer", "minimum": 1},
+        "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "requirements": {"type": "array", "items": {"type": "string", "pattern": "^req_[a-z0-9_]+$"}},
+    "dependencies": {"type": "array", "items": {"type": "string", "pattern": "^work_[a-z0-9_]+$"}},
+    "capabilities": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_.-]+$"}},
     "status": {"enum": ["DRAFT", "READY", "IN_PROGRESS", "BLOCKED", "PENDING_LOCAL_VALIDATION", "DONE"]}
   },
   "additionalProperties": true

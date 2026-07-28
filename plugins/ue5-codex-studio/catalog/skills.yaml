@@ -20,7 +20,7 @@ skills:
   - {name: ue5-design-architecture, status: active, owner: architecture, artifacts: [docs/architecture], legacy: [create-architecture, architecture-decision, architecture-review, create-control-manifest]}
   - {name: ue5-plan-simulation, status: active, owner: simulation_contract, artifacts: [design/simulation.yaml], legacy: []}
   - {name: ue5-plan-persistence, status: active, owner: save_contract, artifacts: [design/persistence.yaml], legacy: []}
-  - {name: ue5-spec-assets, status: active, owner: asset_manifest, artifacts: [assets/asset-manifest.yaml], legacy: [asset-spec]}
+  - {name: ue5-spec-assets, status: active, owner: asset_registry, artifacts: [assets/asset-registry.yaml], legacy: [asset-spec]}
   - {name: ue5-run-prototype, status: active, owner: prototype_report, artifacts: [prototypes], legacy: [prototype]}
   - {name: ue5-build-slice, status: active, owner: slice_report, artifacts: [production/vertical-slice.yaml], legacy: [vertical-slice]}
   - {name: ue5-plan-work, status: active, owner: work_plan, artifacts: [production/work-items], legacy: [create-epics, create-stories, sprint-plan, sprint-status, estimate, milestone-review, retrospective]}

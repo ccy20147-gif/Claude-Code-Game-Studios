@@ -1,0 +1,14 @@
+schema_version: 1
+project_profile:
+  path: .ue5-codex-studio/project.yaml
+  sha256: null
+artifacts:
+  beats: []
+  scenes: []
+  lines: []
+  cues: []
+  truths: []
+  clues: []
+  inferences: []
+  simulation: null
+  presentation: null

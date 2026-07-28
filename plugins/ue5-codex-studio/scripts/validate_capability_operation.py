@@ -45,8 +45,11 @@ def main() -> int:
     if capability is None:
         return fail("operation references an unknown capability")
     support = capability.get("status")
+    availability = capability.get("availability")
     if support == "UNSUPPORTED" and operation["status"] != "BLOCKED":
         return fail("unsupported capability must remain BLOCKED")
+    if availability in {"BLOCKED", "UNSUPPORTED"} and operation["status"] != "BLOCKED":
+        return fail("runtime-blocked capability must remain BLOCKED")
     if support == "THIN_MCP_EXTENSION" and operation["status"] == "READY":
         requirements = (
             ("approval_record", None),
@@ -63,6 +66,8 @@ def main() -> int:
             return fail(f"READY MCP operation missing safe activation conditions: {', '.join(missing)}")
         if operation["execution_profile"] != "local-editor":
             return fail("READY MCP operation requires local-editor execution")
+        if availability == "CANARY_ONLY" and not operation.get("canary_scope"):
+            return fail("READY canary-only operation requires a canary_scope")
     if operation["status"] == "READY" and not operation.get("required_evidence"):
         return fail("READY operation must declare required evidence")
     print(f"PASS: {operation['id']} may remain {operation['status']}")

@@ -323,6 +323,7 @@ class AtlasSession:
             "schema_version": 1,
             "id": evidence_id,
             "operation_id": "operation_" + job["tool"],
+            "subject_refs": [job["asset_id"]],
             "level": "OBSERVED",
             "result": "PENDING_LOCAL_VALIDATION",
             "kind": "cloud_generation",

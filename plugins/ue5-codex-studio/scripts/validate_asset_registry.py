@@ -16,11 +16,7 @@ ASSET_ID = re.compile(r"asset_[a-z0-9_]+$")
 SHA256 = re.compile(r"[0-9a-f]{64}$")
 KINDS = {"mesh", "texture", "material", "rig", "animation", "vfx", "audio", "ui", "level", "gameplay_data", "collision", "nav_data"}
 STATUSES = {"CANDIDATE", "PENDING_LOCAL_VALIDATION", "VALIDATED", "REJECTED"}
-ATLAS_MODELS = {
-    "openai/gpt-image-2/text-to-image",
-    "openai/gpt-image-2/edit",
-    "tencent/hunyuan3d-pro/image-to-3d",
-}
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def fail(message: str) -> int:
@@ -37,10 +33,13 @@ def mapping(value: object, label: str) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("registry", type=Path)
+    parser.add_argument("--model-lock", type=Path, default=ROOT / "integrations" / "atlascloud" / "model-lock.yaml")
     args = parser.parse_args()
     try:
         registry = yaml.safe_load(args.registry.read_text(encoding="utf-8"))
         registry = mapping(registry, "registry")
+        model_lock = mapping(yaml.safe_load(args.model_lock.read_text(encoding="utf-8")), "model lock")
+        atlas_models = {item.get("id") for item in model_lock.get("models", []) if isinstance(item, dict)}
         if registry.get("schema_version") != 1 or not isinstance(registry.get("assets"), list):
             raise ValueError("registry needs schema_version: 1 and assets")
         ids: set[str] = set()
@@ -68,7 +67,7 @@ def main() -> int:
                 if not SHA256.fullmatch(source["prompt_sha256"]):
                     raise ValueError(f"{identifier}.source.prompt_sha256 must be SHA-256")
                 if source.get("provider") == "atlascloud":
-                    if source.get("model") not in ATLAS_MODELS:
+                    if source.get("model") not in atlas_models:
                         raise ValueError(f"{identifier}.source.model is not in the AtlasCloud model lock")
                     if not isinstance(source.get("prediction_id"), str) or not source["prediction_id"]:
                         raise ValueError(f"{identifier}.source.prediction_id is required")
@@ -84,7 +83,7 @@ def main() -> int:
             if not isinstance(files, list) or not files or not all(isinstance(item, str) and item and not Path(item).is_absolute() and ".." not in Path(item).parts for item in files):
                 raise ValueError(f"{identifier}.files must be safe relative paths")
             target = mapping(asset.get("target"), f"{identifier}.target")
-            if target.get("engine") not in {"UE5", "Godot"} or not isinstance(target.get("destination"), str) or not target["destination"]:
+            if target.get("engine") != "UE5" or not isinstance(target.get("destination"), str) or not target["destination"]:
                 raise ValueError(f"{identifier}.target needs engine and destination")
             for field, prefix in (("requirement_ids", "req_"), ("ability_ids", "ability_")):
                 values = asset.get(field, [])

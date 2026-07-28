@@ -9,7 +9,9 @@
 | Unreal Engine 5 | `ue5-codex-studio` | `$ue5-start-project` |
 | Godot 4 | `godot-codex-studio` | `$godot-start-project` |
 
-两者各有 39 个 skills，覆盖项目启动、GDD 协调、故事改编、设计、制作、QA、发布与运营。外部文档中的“已通过”仅是待核验声明，必须先经 GDD 协调与用户确认才能接受基线。
+两者各有 39 个 skills，覆盖项目启动、GDD 协调、故事改编、设计、制作、QA、发布与运营。外部文档中的“已通过”仅是待核验声明，必须先经 GDD 协调与用户确认才能接受基线。UE5 当前完整的新项目闭环止于 `ACCEPTED baseline + READY work item`；编辑器/DCC 自动化和游戏发行必须以 capability catalog 的运行时可用性为准。
+
+UE5 当前入口与恢复流程见 [UE5 Codex Studio Workflow](docs/UE5-CODEX-WORKFLOW.md)。
 
 ## 安装
 

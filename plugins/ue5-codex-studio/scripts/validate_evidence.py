@@ -10,6 +10,8 @@ from pathlib import Path
 
 import yaml
 
+from schema_validation import load_yaml, validate_schema
+
 
 LEVELS = {"ACK", "OBSERVED", "PERSISTED", "RUNTIME"}
 RESULTS = {"PASS", "FAIL", "UNKNOWN", "PENDING_LOCAL_VALIDATION"}
@@ -55,11 +57,12 @@ def main() -> int:
     parser.add_argument("evidence", type=Path)
     args = parser.parse_args()
     try:
-        record = yaml.safe_load(args.evidence.read_text(encoding="utf-8"))
-    except (OSError, yaml.YAMLError) as error:
+        record = load_yaml(args.evidence)
+    except (OSError, ValueError, yaml.YAMLError) as error:
         return fail(f"cannot read evidence: {error}")
-    if not isinstance(record, dict):
-        return fail("evidence must be a mapping")
+    errors = validate_schema(record, "evidence.schema.json")
+    if errors:
+        return fail("; ".join(errors))
     if not isinstance(record.get("id"), str) or not record["id"].startswith("evidence_"):
         return fail("evidence ID must start with evidence_")
     if record.get("level") not in LEVELS or record.get("result") not in RESULTS:

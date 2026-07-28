@@ -1,13 +1,13 @@
 ---
 name: ue5-reconcile-gdd
-description: Reconcile external GDD documents, design packs, and readable design links into the canonical UE5 Codex Studio GDD before baseline acceptance. Use after importing existing design material, when an external document claims approval, or when gaps and conflicts need iterative user decisions.
+description: Build the canonical UE5 game design document from a selected concept, narrative adaptation, implementation intake, external GDD, or hybrid source before baseline acceptance. Use when a project needs a traceable canonical GDD or when imported design material has gaps or conflicts.
 ---
 
-# Reconcile An Imported GDD
+# Build A Canonical GDD
 
-Read `../../references/state-contract.md` and start from the intake bundle. Read every accessible user-provided GDD document and the content of every accessible design link, not merely filenames, headings, or status labels. Record each extracted statement with its source reference and local section/anchor. Use `../../templates/canonical-gdd.yaml` to create `design/gdd/gdd.yaml`; preserve source files and never overwrite them.
+Read `../../references/state-contract.md` and identify `source_kind` as `concept`, `narrative`, `implementation`, `external_design`, or `hybrid`. Start from the concept contract, narrative registry, intake bundle, and/or accessible GDD documents as appropriate. Read supplied design links by content, not filenames or status labels. Record each decision with a source reference and local anchor. Use `../../templates/canonical-gdd.yaml` to create `design/gdd/gdd.yaml`; preserve source files and never overwrite them.
 
-Treat every external status, sign-off, review result, and "passed baseline" statement as an `external_claim` with disposition `UNVERIFIED`, `IGNORED`, or `REJECTED`. It is evidence about the source, not Codex Studio approval. For a supplied URL, read it only when accessible, record the resolved URL, retrieval time, and content fingerprint in `source_refs`; when access is unavailable or requires credentials, ask the user for an export or the relevant text instead of inventing content.
+Treat every external status, sign-off, review result, and "passed baseline" statement as an `external_claim` with disposition `UNVERIFIED`, `IGNORED`, or `REJECTED`. It is evidence about the source, not Codex Studio approval. Internal concept, narrative, and implementation artifacts are source references, not automatic acceptance. For a supplied URL, read it only when accessible, record the resolved URL, retrieval time, and content fingerprint in `source_refs`; when access is unavailable or requires credentials, ask the user for an export or the relevant text instead of inventing content.
 
 Extract and reconcile the nine canonical sections: vision, core loop, scope, systems, content, UX/accessibility, art/audio, technical, and validation. Link each extracted statement to a source reference. Mark a section `NOT_APPLICABLE` or `DEFERRED` only with a user decision record; never use either status to hide a missing decision.
 

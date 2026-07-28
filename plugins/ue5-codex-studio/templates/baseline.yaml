@@ -1,10 +1,12 @@
-schema_version: 1
+schema_version: 2
 id: baseline_game
 revision: 1
 status: DRAFT
 gdd:
   path: design/gdd/gdd.yaml
+  id: null
   revision: null
+  sha256: null
 acceptance:
   status: PENDING
   approver: null

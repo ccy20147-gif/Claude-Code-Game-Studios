@@ -7,4 +7,4 @@ description: Turn a zero-idea or vague game prompt into bounded UE5 game concept
 
 Create several materially distinct concepts within the stated time, team, platform, and content constraints. For each, define player fantasy, experience profile, core interaction, scope risk, a smallest falsifiable prototype, and a reason it may fail. Do not turn an idea into an accepted design without the user's selection.
 
-After selection, write `design/concept-options.yaml` and an experience contract only with approval. Route the selected concept to `$ue5-map-systems` or `$ue5-run-prototype` when the highest-risk promise should be tested before system design.
+In `solo` or `lean` review mode, save concept candidates as `DRAFT` and show assumptions; `full` mode confirms each selected section. A concept selection still requires explicit user approval. Write `design/concept-options.yaml` and an experience contract, then route to `$ue5-run-prototype` for an unresolved high-risk promise or `$ue5-reconcile-gdd` with `source_kind: concept`. Do not route directly to baseline or detailed system design.

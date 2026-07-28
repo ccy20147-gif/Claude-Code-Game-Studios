@@ -1,0 +1,16 @@
+schema_version: 1
+id: release_game
+status: DRAFT
+source_revision: null
+baseline:
+  id: null
+  revision: null
+  sha256: null
+toolchain_sha256: null
+targets: []
+gates: []
+known_issues: []
+rollback:
+  artifact: null
+  sha256: null
+waivers: []

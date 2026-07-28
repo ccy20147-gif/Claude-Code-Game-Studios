@@ -1,12 +1,13 @@
-schema_version: 1
+schema_version: 2
+id: project_game
 lifecycle: concept
 mode: standard
 review: adaptive
 profiles:
-  experience: linear
-  presentation: 3d
-  investigation: none
-  runtime: single
+  experience: unknown
+  presentation: unknown
+  investigation: unknown
+  runtime: unknown
   operations:
     packaged: true
     live_service: false
@@ -17,8 +18,17 @@ audio:
   text_dialogue: true
   source_vo: false
   localized_vo: false
-source_locale: en
+source_locale: null
 target_locales: []
-shipping_targets: [windows, linux]
+shipping_targets: []
 authority_map: {}
 assumptions: []
+artifact_refs: {}
+workflow:
+  phase: intake
+  status: READY
+  active_skill: ue5-start-project
+  active_work_item: null
+  blockers: []
+  pending_decisions: []
+  transitions: []

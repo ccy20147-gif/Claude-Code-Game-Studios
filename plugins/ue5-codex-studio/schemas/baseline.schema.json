@@ -1,16 +1,51 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["schema_version", "id", "revision", "status", "gdd", "acceptance", "requirements"],
+  "required": ["schema_version", "id", "revision", "status", "gdd", "acceptance", "requirements", "waivers"],
   "properties": {
-    "schema_version": {"const": 1},
+    "schema_version": {"const": 2},
     "id": {"type": "string", "pattern": "^baseline_[a-z0-9_]+$"},
     "revision": {"type": "integer", "minimum": 1},
     "status": {"enum": ["DRAFT", "CANDIDATE", "ACCEPTED", "SUPERSEDED"]},
-    "gdd": {"type": "object"},
-    "acceptance": {"type": "object"},
+    "gdd": {
+      "type": "object",
+      "required": ["path", "id", "revision", "sha256"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?!/)(?!.*\\.\\.).+"},
+        "id": {"type": ["string", "null"], "pattern": "^gdd_[a-z0-9_]+$"},
+        "revision": {"type": ["integer", "null"], "minimum": 1},
+        "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "required": ["status", "approver", "record"],
+      "properties": {
+        "status": {"enum": ["PENDING", "APPROVED"]},
+        "approver": {"type": ["string", "null"]},
+        "record": {"type": ["string", "null"]}
+      }
+    },
     "requirements": {"type": "array", "items": {"type": "string", "pattern": "^req_[a-z0-9_]+$"}},
-    "waivers": {"type": "array"}
+    "waivers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "scope", "rationale", "expiry", "owner", "remediation"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^waiver_[a-z0-9_]+$"},
+          "scope": {"type": "string", "minLength": 1},
+          "rationale": {"type": "string", "minLength": 1},
+          "expiry": {"type": "string", "minLength": 1},
+          "owner": {"type": "string", "minLength": 1},
+          "remediation": {"type": "string", "minLength": 1}
+        }
+      }
+    }
   },
+  "allOf": [{
+    "if": {"properties": {"status": {"const": "ACCEPTED"}}},
+    "then": {"properties": {"requirements": {"minItems": 1}}}
+  }],
   "additionalProperties": true
 }
