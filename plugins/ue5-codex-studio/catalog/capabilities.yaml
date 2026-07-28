@@ -11,5 +11,8 @@ capabilities:
   - {id: ue.mass.spawn, mutability: WRITE, status: UNSUPPORTED, backend: none, evidence: RUNTIME}
   - {id: blender.discovery, mutability: READ, status: DIRECT, backend: blender-mcp, evidence: OBSERVED}
   - {id: blender.asset.author, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: blender-mcp, evidence: PERSISTED}
+  - {id: cloud.asset.concept.create, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: atlascloud-controlled, evidence: OBSERVED}
+  - {id: cloud.asset.concept.modify, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: atlascloud-controlled, evidence: OBSERVED}
+  - {id: cloud.asset.mesh.create, mutability: WRITE, status: THIN_MCP_EXTENSION, backend: atlascloud-controlled, evidence: OBSERVED}
   - {id: audio.music_production, mutability: WRITE, status: MANUAL_REQUIRED, backend: provider-neutral, evidence: RUNTIME}
   - {id: audio.voice_production, mutability: WRITE, status: MANUAL_REQUIRED, backend: provider-neutral, evidence: RUNTIME}

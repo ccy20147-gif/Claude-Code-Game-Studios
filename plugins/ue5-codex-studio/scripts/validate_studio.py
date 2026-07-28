@@ -50,6 +50,12 @@ def main() -> int:
         "scripts/validate_asset_registry.py",
         "scripts/validate_blender_gateway_manifest.py",
         "scripts/validate_gltf_asset.py",
+        "scripts/validate_generated_mesh.py",
+        "scripts/validate_atlascloud_lock.py",
+        "scripts/atlascloud_core.py",
+        "scripts/atlascloud_session.py",
+        "scripts/provision_atlascloud.py",
+        "scripts/run_atlascloud_canary.py",
         "scripts/provision_mcp.py",
         "scripts/provision_ue5ultimatemcp.py",
         "scripts/run_ue5ultimatemcp_canary.py",
@@ -65,6 +71,9 @@ def main() -> int:
         "templates/asset-registry.yaml",
         "templates/dcc-modeling-policy.yaml",
         "integrations/blender-mcp/gateway-manifest.yaml",
+        "integrations/atlascloud/model-lock.yaml",
+        "integrations/atlascloud/policy.json",
+        "integrations/atlascloud/adapter.mjs",
     )
     for relative in required_files:
         if not (ROOT / relative).is_file():

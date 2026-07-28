@@ -8,7 +8,7 @@
     "operation_id": {"type": "string"},
     "level": {"enum": ["ACK", "OBSERVED", "PERSISTED", "RUNTIME"]},
     "result": {"enum": ["PASS", "FAIL", "UNKNOWN", "PENDING_LOCAL_VALIDATION"]},
-    "kind": {"enum": ["test", "review", "runtime", "mcp_mutation"]},
+    "kind": {"enum": ["test", "review", "runtime", "mcp_mutation", "cloud_generation"]},
     "state": {"enum": ["SUCCEEDED", "FAILED", "UNKNOWN", "SKIPPED"]},
     "execution_profile": {"enum": ["local-editor", "cloud", "offline"]}
   },

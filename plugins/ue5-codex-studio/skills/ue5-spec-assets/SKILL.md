@@ -8,3 +8,5 @@ description: Convert approved UE5 art, level, narrative, and audio requirements 
 Read the art bible, level specs, and baseline. Assign stable `asset_id` values and define source requirement, owner, format, license/provenance, platform budget, import settings, scale/pivot/axis, LOD/collision, naming, reimport behavior, and acceptance evidence.
 
 For audio, preserve `line_id` and `cue_id` links rather than encoding semantics in filenames. For 2D assets, declare pixels-per-unit, filter/compression, atlas, pivot, collision, and tile seam constraints. Consult `../../catalog/capabilities.yaml`; an import or editor write may still be manual or require a thin MCP extension.
+
+For AtlasCloud candidates, select only a model in `../../integrations/atlascloud/model-lock.yaml`. Specify a new `asset_id`, rights record, target destination, source asset lineage, output budget, and local-validation gate before generation. GPT Image editing of a registered asset requires a user approval record; text-to-image and image-to-3D create new candidates and must never overwrite an existing registry entry.

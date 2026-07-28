@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "name": "atlascloud-assets-controlled",
+  "contract_sha256": "136b2e027b37465f28071c63d975b12fe3c8c4af094d7ef5d7a91f85e7711257",
+  "tools": {
+    "atlas_generate_concept": {
+      "model": "openai/gpt-image-2/text-to-image",
+      "capability_id": "cloud.asset.concept.create",
+      "effect": "CREATE"
+    },
+    "atlas_edit_concept": {
+      "model": "openai/gpt-image-2/edit",
+      "capability_id": "cloud.asset.concept.modify",
+      "effect": "MODIFY",
+      "approval_required": true
+    },
+    "atlas_generate_mesh": {
+      "model": "tencent/hunyuan3d-pro/image-to-3d",
+      "capability_id": "cloud.asset.mesh.create",
+      "effect": "CREATE"
+    }
+  }
+}

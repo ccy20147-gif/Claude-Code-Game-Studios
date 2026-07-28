@@ -1,0 +1,53 @@
+schema_version: 1
+provider: atlascloud
+api_origin: https://api.atlascloud.ai
+paths:
+  submit: /api/v1/model/generateImage
+  prediction: /api/v1/model/prediction/{prediction_id}
+  upload: /api/v1/model/uploadMedia
+models:
+  - id: openai/gpt-image-2/text-to-image
+    tool: atlas_generate_concept
+    capability_id: cloud.asset.concept.create
+    effect: CREATE
+    output_kind: image
+    required: [prompt]
+    optional: [size, quality, output_format]
+    defaults: {size: 1024x1024, quality: medium, output_format: png}
+    enums:
+      size: [1024x1024, 1024x768, 768x1024, 1024x1536, 1536x1024, 2048x2048, 2048x1152, 1152x2048, 2560x1088, 1088x2560, 2880x2160, 2160x2880, 3840x2160, 2160x3840]
+      quality: [low, medium, high]
+      output_format: [jpeg, png]
+  - id: openai/gpt-image-2/edit
+    tool: atlas_edit_concept
+    capability_id: cloud.asset.concept.modify
+    effect: MODIFY
+    output_kind: image
+    required: [prompt, images]
+    optional: [size, quality, output_format]
+    defaults: {size: 1024x1024, quality: medium, output_format: png}
+    enums:
+      size: [1024x1024, 1024x768, 768x1024, 1024x1536, 1536x1024, 2048x2048, 2048x1152, 1152x2048, 2560x1088, 1088x2560, 2880x2160, 2160x2880, 3840x2160, 2160x3840]
+      quality: [low, medium, high]
+      output_format: [jpeg, png]
+  - id: tencent/hunyuan3d-pro/image-to-3d
+    tool: atlas_generate_mesh
+    capability_id: cloud.asset.mesh.create
+    effect: CREATE
+    output_kind: mesh
+    required: [image]
+    optional: [generate_type, enable_pbr, face_count]
+    defaults: {generate_type: Normal, enable_pbr: true, face_count: 40000}
+    enums:
+      generate_type: [Normal, Geometry]
+    ranges:
+      face_count: {minimum: 40000, maximum: 1500000}
+outputs:
+  image:
+    extensions: [.png, .jpg, .jpeg]
+    content_types: [image/png, image/jpeg]
+    maximum_bytes: 67108864
+  mesh:
+    extensions: [.glb, .obj, .fbx, .usdz, .stl, .mtl, .png, .jpg, .jpeg]
+    content_types: [model/gltf-binary, model/obj, application/octet-stream, model/vnd.usdz+zip, image/png, image/jpeg, text/plain]
+    maximum_bytes: 536870912

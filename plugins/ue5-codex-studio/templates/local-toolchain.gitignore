@@ -3,3 +3,5 @@
 .ue5-codex-studio/local-toolchain.yaml
 .ue5-codex-studio/ue5ultimatemcp-local.json
 .ue5-codex-studio/ue5ultimatemcp-backups/
+.ue5-codex-studio/atlascloud-session.json
+.ue5-codex-studio/atlascloud/jobs/

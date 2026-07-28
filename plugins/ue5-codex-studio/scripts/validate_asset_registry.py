@@ -16,6 +16,11 @@ ASSET_ID = re.compile(r"asset_[a-z0-9_]+$")
 SHA256 = re.compile(r"[0-9a-f]{64}$")
 KINDS = {"mesh", "texture", "material", "rig", "animation", "vfx", "audio", "ui", "level", "gameplay_data", "collision", "nav_data"}
 STATUSES = {"CANDIDATE", "PENDING_LOCAL_VALIDATION", "VALIDATED", "REJECTED"}
+ATLAS_MODELS = {
+    "openai/gpt-image-2/text-to-image",
+    "openai/gpt-image-2/edit",
+    "tencent/hunyuan3d-pro/image-to-3d",
+}
 
 
 def fail(message: str) -> int:
@@ -62,6 +67,19 @@ def main() -> int:
                         raise ValueError(f"AI-generated {identifier} needs source.{field}")
                 if not SHA256.fullmatch(source["prompt_sha256"]):
                     raise ValueError(f"{identifier}.source.prompt_sha256 must be SHA-256")
+                if source.get("provider") == "atlascloud":
+                    if source.get("model") not in ATLAS_MODELS:
+                        raise ValueError(f"{identifier}.source.model is not in the AtlasCloud model lock")
+                    if not isinstance(source.get("prediction_id"), str) or not source["prediction_id"]:
+                        raise ValueError(f"{identifier}.source.prediction_id is required")
+                    if not isinstance(source.get("request_sha256"), str) or not SHA256.fullmatch(source["request_sha256"]):
+                        raise ValueError(f"{identifier}.source.request_sha256 must be SHA-256")
+                    inputs = source.get("input_asset_ids", [])
+                    if not isinstance(inputs, list) or not all(isinstance(item, str) and ASSET_ID.fullmatch(item) for item in inputs):
+                        raise ValueError(f"{identifier}.source.input_asset_ids are invalid")
+                    evidence = source.get("generation_evidence")
+                    if not isinstance(evidence, str) or not evidence or Path(evidence).is_absolute() or ".." in Path(evidence).parts:
+                        raise ValueError(f"{identifier}.source.generation_evidence must be a safe relative path")
             files = asset.get("files")
             if not isinstance(files, list) or not files or not all(isinstance(item, str) and item and not Path(item).is_absolute() and ".." not in Path(item).parts for item in files):
                 raise ValueError(f"{identifier}.files must be safe relative paths")

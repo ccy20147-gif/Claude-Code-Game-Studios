@@ -2,7 +2,7 @@
 
 ## Current State
 
-The plugin is installed locally as `ue5-codex-studio@donchitos-game-studios`, version `0.1.0+codex.20260724101749`. Codex CLI `0.145.0` was used for installation and upgrade readback. The repository-local marketplace is `.agents/plugins/marketplace.json`; use the repository root as the local marketplace source.
+The repository manifest is authoritative for the current plugin version. A local Codex installation may remain on an older cachebuster until installation readback is repeated. The repository-local marketplace is `.agents/plugins/marketplace.json`; use the repository root as the local marketplace source.
 
 All 39 public skills are active. The core path is independent of MCP: zero-idea, fiction, design-pack, and brownfield UE intake; external-GDD reconciliation; narrative adaptation; design; work planning; QA; release; and operations. Structured YAML is authoritative. Start with `skills/ue5-start-project`, `ue5-adapt-story`, or `ue5-ingest-project`. A design-pack intake must pass `ue5-reconcile-gdd`; imported approval language is never a baseline acceptance.
 
@@ -18,7 +18,7 @@ python3 /root/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py pl
 git diff --check
 ```
 
-The suite currently contains 21 behavior tests. It covers plugin/catalog integrity; external-GDD reconciliation and non-inheritance of approval claims; fiction-to-game traceability; text-revision stale propagation; UE brownfield intake; profile delivery; policy, token, drift, and bypass denial; approved artifact provisioning; and immutable marketplace install/rollback command flows. It does not replace a real editor canary. Regenerate the Markdown catalog after changing `catalog/skills.yaml`:
+The suite currently contains 36 behavior tests. It covers plugin/catalog integrity; external-GDD reconciliation and non-inheritance of approval claims; fiction-to-game traceability; text-revision stale propagation; UE brownfield intake; profile delivery; policy, token, drift, and bypass denial; controlled AtlasCloud generation; approved artifact provisioning; and immutable marketplace install/rollback command flows. It does not replace a real editor, Blender, or paid-provider canary. Regenerate the Markdown catalog after changing `catalog/skills.yaml`:
 
 ```bash
 python3 plugins/ue5-codex-studio/scripts/render_catalog.py
@@ -66,6 +66,31 @@ Never place a capability token in tracked UE config. Use an environment variable
 The adapter exposes health, discovery, level/Actor reads, viewport capture, and canary-map-only Actor creation/deletion. It never registers the upstream dynamic Node bridge or its high-risk tools. A self-hosted Windows UE 5.7 runner must run `scripts/run_ue5ultimatemcp_canary.py` with a dedicated `/Game/__CodexCanary_*` map and save/reload evidence before enabling write automation beyond this canary.
 
 `templates/dcc-modeling-policy.yaml` is the Blender/DCC activation contract. It allows only creating new meshes, sculpts, and new imports by default. Any existing-asset edit or deletion requires a Codex writes approval record. This policy remains inactive until the Blender gateway is checksum-locked, filters stable `(skill_name, backend_tool)` identities, and passes a DCC canary; it does not authorize raw scripts, addon installation, or exports outside the project workspace.
+
+## Controlled AtlasCloud Assets
+
+`integrations/atlascloud/model-lock.yaml` permits exactly three provider models: GPT Image 2 text-to-image, approval-required GPT Image 2 edit, and Hunyuan 3D Pro image-to-3D. The repository-owned adapter never exposes AtlasCloud's dynamic model list, arbitrary model IDs, raw HTTP, batch generation, or deletion. New concept and mesh candidates are `CREATE`; editing a registered source asset is `MODIFY` and requires an approval record.
+
+The API key is collected only by `scripts/atlascloud_session.py start` through hidden terminal input. It remains in that foreground process. The ignored session state contains a random loopback token, endpoint, PID, project identity, job ceiling, and model-contract hash, but never the provider key. Copy the local-toolchain ignore template or let the approved provisioner add the two exact AtlasCloud exclusions.
+
+Run in this order from a separate terminal and keep the session process alive:
+
+```bash
+python3 plugins/ue5-codex-studio/scripts/validate_atlascloud_lock.py plugins/ue5-codex-studio/integrations/atlascloud/model-lock.yaml
+python3 plugins/ue5-codex-studio/scripts/atlascloud_session.py start --project C:\Game --registry assets/asset-registry.yaml --max-jobs 3
+python3 plugins/ue5-codex-studio/scripts/provision_atlascloud.py plan --project C:\Game
+python3 plugins/ue5-codex-studio/scripts/provision_atlascloud.py install --project C:\Game --approve
+```
+
+Start a new Codex thread after registration. Use `doctor` to verify the authenticated local session and configuration readback. Use `remove --approve` to remove the MCP registration and `atlascloud_session.py stop --state-file ...` to terminate the in-memory credential session.
+
+With explicit spend approval, the bounded live canary submits exactly one text-to-image job, one approved edit job, and one 40000-face Hunyuan 3D job:
+
+```bash
+python3 plugins/ue5-codex-studio/scripts/run_atlascloud_canary.py --state-file C:\Game\.ue5-codex-studio\atlascloud-session.json --approve-spend
+```
+
+Generation is split into submission and collection. Collection downloads outputs through an HTTPS AtlasCloud host allowlist into project-local staging, checks response type and size, and publishes the complete directory without overwriting. It appends a new `PENDING_LOCAL_VALIDATION` registry entry and normalized cloud-generation evidence. A Hunyuan GLB may pass `validate_generated_mesh.py` as a coarse candidate; it must not pass the stricter production gate until topology, UV, LOD, materials, collision, rigging, and engine behavior have been validated.
 
 `scripts/provision_mcp.py` is the approved second stage. It requires all three reviewed artifact paths (`unreal`, `blender-adapter`, and `blender-core`), matching immutable hashes, `--approve`, an explicit install root, and an explicit local state file. HTTPS download additionally needs `--allow-download`. It never writes credentials. `--start-services` is refused unless the local lock adds reviewed loopback service argv/health records. Copy `templates/local-toolchain.gitignore` into the target project before choosing a local state path.
 
